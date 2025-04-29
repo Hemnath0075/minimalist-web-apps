@@ -1,8 +1,12 @@
 import React from 'react'
+import Sidebar from '../Components/Sidebar'
 
 function Home() {
   return (
-    <div>Home</div>
+    <div className="flex flex-row justify-between items-center w-full h-full">
+      <Sidebar/>
+
+    </div>
   )
 }
 
