@@ -18,8 +18,8 @@ function Header() {
     <div className="w-full bg-secondary rounded-[10px] flex flex-row justify-between p-4 items-center">
       <div className="flex flex-row gap-4 items-center ">
         <img src="/unilever.svg" alt="" className="w-[70px] h-[70px]" />
-        <div className="w-[2px] h-[4vh] bg-white text-white"></div>
-        <p className="text-3xl text-white font-[600]">LIVE EGA DASHBOARD</p>
+        <div className="w-[2  px] h-[4vh] bg-white text-white"></div>
+        <p className="text-3xl text-white font-[600]">Real Time Production Counter</p>
       </div>
       <div className="flex flex-col gap-1">
         {/* <label className="text-[1rem] font-[400] text-[#090C13] capitalize">
