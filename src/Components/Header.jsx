@@ -4,7 +4,7 @@ import { DatePicker, Image, Spin } from "antd";
 import dayjs from "dayjs";
 import { CiCalendar } from "react-icons/ci";
 
-function Header() {
+function Header({ onDateChange }) {
   const {
     register,
     handleSubmit,
@@ -19,7 +19,9 @@ function Header() {
       <div className="flex flex-row gap-4 items-center ">
         <img src="/unilever.svg" alt="" className="w-[70px] h-[70px]" />
         <div className="w-[2  px] h-[4vh] bg-white text-white"></div>
-        <p className="text-3xl text-white font-[600]">Real Time Production Counter</p>
+        <p className="text-3xl text-white font-[600]">
+          Real Time Production Counter
+        </p>
       </div>
       <div className="flex flex-col gap-1">
         {/* <label className="text-[1rem] font-[400] text-[#090C13] capitalize">
@@ -47,7 +49,10 @@ function Header() {
                   textAlign: "center",
                 }}
                 format="DD-MM-YYYY"
-                onChange={(date, dateString) => onChange(dateString)}
+                onChange={(date, dateString) => {
+                  onChange(dateString);
+                  onDateChange(dateString); // <-- SEND DATE TO HOME
+                }}
               />
 
               <CiCalendar
