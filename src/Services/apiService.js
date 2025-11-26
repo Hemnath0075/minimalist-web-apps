@@ -12,7 +12,7 @@ export const Endpoint = {
 
   GET_SESSION_OUTPUTS: "/pipeline-session/{id}?overview=0",
 
-  GET_SESSION_DATA: "/pipeline-session/all?overview=0&sort=1&limit=1&start_date={start_time}&end_date={end_time}",
+  GET_SESSION_DATA: "/pipeline-session/all?overview=0&sort=1&start_date={start_time}&end_date={end_time}",
 
 
   // CREATE SESSION
