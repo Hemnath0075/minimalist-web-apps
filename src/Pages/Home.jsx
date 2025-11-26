@@ -37,6 +37,78 @@ function Home() {
   return null;
 };
 
+const [lineTable, setLineTable] = useState([]);
+const [eolTable, setEolTable] = useState([]);
+const [diffTable, setDiffTable] = useState([]);
+
+const convertToTableRows = (rowMap) => {
+  const rows = Object.entries(rowMap).map(([cbu, shifts], idx) => ({
+    key: idx,
+    cbu,
+    a_cld: shifts.A,
+    a_ton: "-",
+    b_cld: shifts.B,
+    b_ton: "-",
+    c_cld: shifts.C,
+    c_ton: "-",
+  }));
+
+  const totalRow = {
+    key: "total",
+    cbu: "Total",
+    a_cld: rows.reduce((a, r) => a + r.a_cld, 0),
+    a_ton: "-",
+    b_cld: rows.reduce((a, r) => a + r.b_cld, 0),
+    b_ton: "-",
+    c_cld: rows.reduce((a, r) => a + r.c_cld, 0),
+    c_ton: "-",
+    isTotal: true,
+  };
+
+  return [...rows, totalRow];
+};
+
+const computeDifference = (lineRows, eolRows) => {
+  const mapify = (rows) =>
+    rows.filter(r => r.key !== "total").reduce((acc, r) => {
+      acc[r.cbu] = r;
+      return acc;
+    }, {});
+
+  const L = mapify(lineRows);
+  const E = mapify(eolRows);
+
+  const all = new Set([...Object.keys(L), ...Object.keys(E)]);
+
+  const diff = [...all].map((code, idx) => ({
+    key: idx,
+    cbu: code,
+    a_cld: (L[code]?.a_cld || 0) - (E[code]?.a_cld || 0),
+    a_ton: "-",
+    b_cld: (L[code]?.b_cld || 0) - (E[code]?.b_cld || 0),
+    b_ton: "-",
+    c_cld: (L[code]?.c_cld || 0) - (E[code]?.c_cld || 0),
+    c_ton: "-",
+  }));
+
+  // Total row
+  diff.push({
+    key: "total",
+    cbu: "Total",
+    a_cld: diff.reduce((sum, r) => sum + (r.a_cld || 0), 0),
+    a_ton: "-",
+    b_cld: diff.reduce((sum, r) => sum + (r.b_cld || 0), 0),
+    b_ton: "-",
+    c_cld: diff.reduce((sum, r) => sum + (r.c_cld || 0), 0),
+    c_ton: "-",
+    isTotal: true,
+  });
+
+  return diff;
+};
+
+
+
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -85,56 +157,57 @@ function Home() {
     .replace("{end_time}", end_time);
 
   const res = await apiService.get(getSessionEndpoint);
-
   if (res.status !== 200) return;
 
-  const outputs = res.data?.data?.[0]?.outputs || [];
+  const sessions = res.data?.data || [];
 
-  const rowMap = {}; // { FALD3R3: { A: number, B: number, C: number } }
+  // Maps
+  const lineMap = {};    // For CLD
+  const eolMap = {};     // For WMS data
 
-  outputs.forEach(out => {
-    const detectedUnit = out.units?.find(u => u.output_key === "detected");
-    const detected = detectedUnit?.output_value;
+  sessions.forEach(session => {
+    const isLine = session.name.includes('cld-carton')  // Covers null, undefined, empty string
+    const isEol  = session.name === "wms_data";
 
-    if (!detected || !CBU_REGEX.test(detected)) return;
+    session.outputs.forEach(out => {
+      const ts = out.created_at;
+      const shift = classifyShift(ts, selectedDate);
+      if (!shift) return;
 
-    const shift = classifyShift(out.created_at, selectedDate);
-    if (!shift) return;
+      // ---------- LINE COUNTER ----------
+      if (isLine) {
+        const detected = out.units?.find(u => u.output_key === "detected")?.output_value;
+        if (!detected || !CBU_REGEX.test(detected)) return;
 
-    if (!rowMap[detected]) {
-      rowMap[detected] = { A: 0, B: 0, C: 0 };
-    }
+        if (!lineMap[detected]) lineMap[detected] = { A: 0, B: 0, C: 0 };
+        lineMap[detected][shift] += 1;
+      }
 
-    rowMap[detected][shift] += 1;
+      // ---------- EOL COUNTER ----------
+      if (isEol) {
+        const code = out.units?.find(u => u.output_key === "ProductCode")?.output_value;
+        if (!code) return;
+
+        if (!eolMap[code]) eolMap[code] = { A: 0, B: 0, C: 0 };
+        eolMap[code][shift] += 1;
+      }
+    });
   });
 
-  // Convert map → table rows
-  const tableRows = Object.entries(rowMap).map(([code, shifts], idx) => ({
-    key: idx,
-    cbu: code,
-    a_cld: shifts.A,
-    a_ton: "-",
-    b_cld: shifts.B,
-    b_ton: "-",
-    c_cld: shifts.C,
-    c_ton: "-",
-  }));
+  // Convert maps → rows
+  const lineRows = convertToTableRows(lineMap);
+  const eolRows  = convertToTableRows(eolMap);
+  const diffRows = computeDifference(lineRows, eolRows);
 
-  // Add total row
-  const totalRow = {
-    key: "total",
-    cbu: "Total",
-    a_cld: tableRows.reduce((s, r) => s + r.a_cld, 0),
-    a_ton: "-",
-    b_cld: tableRows.reduce((s, r) => s + r.b_cld, 0),
-    b_ton: "-",
-    c_cld: tableRows.reduce((s, r) => s + r.c_cld, 0),
-    c_ton: "-",
-    isTotal: true,
-  };
+  setLineTable(lineRows);
+  setEolTable(eolRows);
+  setDiffTable(diffRows);
 
-  setCbuStats([...tableRows, totalRow]);
+  console.log(lineRows);
+  console.log(eolRows);
+  console.log(diffRows);
 };
+
 
 
   useEffect(() => {
@@ -155,22 +228,34 @@ function Home() {
     getData();
   }, []);
 
-  const renderSection = (title) => (
+  const renderSection = (title) => {
+  let dataSource = [];
+
+  if (title === "Line Counter") {
+    dataSource = lineTable;
+  } else if (title === "EOL Counter (Techway)") {
+    dataSource = eolTable;
+  } else if (title === "Counter Difference") {
+    dataSource = diffTable;
+  }
+
+  return (
     <div className="section-box">
       <div className="section-title">{title}</div>
 
       <Table
-  bordered
-  columns={columns}
-  dataSource={cbuStats}   // <-- use final processed rows
-  pagination={false}
-  rowClassName={(record) => (record.isTotal ? "total-row" : "")}
-  size="small"
-  className="custom-table"
-/>
-
+        bordered
+        columns={columns}
+        dataSource={dataSource}
+        pagination={false}
+        rowClassName={(record) => (record.isTotal ? "total-row" : "")}
+        size="small"
+        className="custom-table"
+      />
     </div>
   );
+};
+
 
   return (
     <div className="flex p-4 flex-col bg-primary items-center w-full min-h-screen">
