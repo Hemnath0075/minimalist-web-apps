@@ -6,13 +6,13 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#001965', // or your primary color
-          light: '#001965',
+          DEFAULT: '#000D33   ', // or your primary color
+          light: '#000D33',
           dark: '#1E40AF',
         },
         secondary: {
-          DEFAULT: '#00308F', // or your secondary color
-          light: '#00308F',
+          DEFAULT: '#001965', // or your secondary color
+          light: '#001965',
           dark: '#B45309',
         },
       },

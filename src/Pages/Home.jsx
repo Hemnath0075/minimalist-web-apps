@@ -192,7 +192,8 @@ const computeDifference = (lineRows, eolRows) => {
       endDateTime: endDateTime.format("YYYY-MM-DD HH:mm:ss"),
     };
   };
-  const applyWeightAndTonnage = (rows, weightMap) => {
+  
+const applyWeightAndTonnage = (rows, weightMap) => {
   return rows.map(row => {
     if (row.key === "total") return row;
 
@@ -201,12 +202,15 @@ const computeDifference = (lineRows, eolRows) => {
     return {
       ...row,
       weight,
-      a_ton: (row.a_cld * weight).toFixed(2),
-      b_ton: (row.b_cld * weight).toFixed(2),
-      c_ton: (row.c_cld * weight).toFixed(2),
+
+      // correct formula for all shifts
+      a_ton: ((row.a_cld * weight) / 1000).toFixed(2),
+      b_ton: ((row.b_cld * weight) / 1000).toFixed(2),
+      c_ton: ((row.c_cld * weight) / 1000).toFixed(2),
     };
   });
 };
+
 const fetchCbuWeights = async (uniqueCbus) => {
   const weightMap = {};
 
@@ -216,10 +220,10 @@ const fetchCbuWeights = async (uniqueCbus) => {
         const endpoint = Endpoint.GET_ALL_GENERAL_PROPERTIES;
         const res = await apiService.get(endpoint, { property_key: cbu });
 
-        const allProps = res.data?.data || [];
-        const weightProp = allProps.find(p => p.key === "weight");
+        const allProps = res.data?.properties || [];
+        const weightProp = allProps.find(p => p.property_label === "weight");
 
-        weightMap[cbu] = Number(weightProp?.value || 0);
+        weightMap[cbu] = Number(weightProp?.property_value || 0);
       } catch (err) {
         console.error("Weight fetch failed for", cbu);
         weightMap[cbu] = 0;
@@ -242,6 +246,24 @@ const recalcTotalRow = (rows) => {
 
   return rows;
 };
+
+const recalcTotalForFiltered = (rows) => {
+  const total = rows.find(r => r.key === "total");
+  if (!total) return rows;
+
+  const nonTotal = rows.filter(r => r.key !== "total");
+
+  total.a_cld = nonTotal.reduce((s,r)=>s + (r.a_cld || 0), 0);
+  total.b_cld = nonTotal.reduce((s,r)=>s + (r.b_cld || 0), 0);
+  total.c_cld = nonTotal.reduce((s,r)=>s + (r.c_cld || 0), 0);
+
+  total.a_ton = nonTotal.reduce((s,r)=>s + Number(r.a_ton || 0), 0).toFixed(2);
+  total.b_ton = nonTotal.reduce((s,r)=>s + Number(r.b_ton || 0), 0).toFixed(2);
+  total.c_ton = nonTotal.reduce((s,r)=>s + Number(r.c_ton || 0), 0).toFixed(2);
+
+  return rows;
+};
+
 
 
 
@@ -305,10 +327,31 @@ const recalcTotalRow = (rows) => {
     eolWeighted = recalcTotalRow(eolWeighted);
 
     const diffRows = computeDifferenceTonnage(lineWeighted, eolWeighted);
+// Keep only CBUs that exist in line table (excluding total)
+const lineCbus = new Set(
+  lineWeighted.filter(r => r.key !== "total").map(r => r.cbu)
+);
 
+// Filter EOL & DIFF based on line CBUs
+let filteredEol = eolWeighted.filter(
+  r => r.key === "total" || lineCbus.has(r.cbu)
+);
+
+let filteredDiff = diffRows.filter(
+  r => r.key === "total" || lineCbus.has(r.cbu)
+);
+
+// RE-CALCULATE TOTAL ROWS after filtering
+filteredEol = recalcTotalForFiltered(filteredEol);
+filteredDiff = recalcTotalForFiltered(filteredDiff);
+
+
+
+    
     setLineTable(lineWeighted);
-    setEolTable(eolWeighted);
-    setDiffTable(diffRows);
+setEolTable(filteredEol);
+setDiffTable(filteredDiff);
+
   };
 
 
@@ -331,6 +374,30 @@ const recalcTotalRow = (rows) => {
     getData();
   }, []);
 
+  // Auto-refresh every 5 sec ONLY when selected date is today
+useEffect(() => {
+  if (!selectedDate) return;
+
+  const todayStr = dayjs().format("DD-MM-YYYY");
+
+  // if selected date ≠ today → stop polling
+  if (selectedDate !== todayStr) return;
+
+  // run immediately
+  const timestamps = getShiftEpochs({ selectedDate, shift: 1 });
+  getSessionData(timestamps.startEpoch, timestamps.endEpoch);
+
+  // start interval
+  const interval = setInterval(() => {
+    const ts = getShiftEpochs({ selectedDate, shift: 1 });
+    getSessionData(ts.startEpoch, ts.endEpoch);
+  }, 5000);
+
+  // cleanup when date changes
+  return () => clearInterval(interval);
+}, [selectedDate]);
+
+
   const renderSection = (title) => {
   let dataSource = [];
 
@@ -344,7 +411,7 @@ const recalcTotalRow = (rows) => {
 
   return (
     <div className="section-box">
-      <div className="section-title">{title}</div>
+      <div className="section-title py-4">{title}</div>
 
       <Table
         bordered

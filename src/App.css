@@ -135,7 +135,7 @@ body {
 
 /* highlight the TOTAL row */
 .custom-table .ant-table-tbody > tr.total-row td {
-  background: rgba(255,255,255,0.15) !important;
+  background: #002185 !important;
   font-weight: bold;
 }
 
@@ -150,17 +150,17 @@ body {
 }
 
 .custom-table .ant-table-tbody > tr > td {
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: #001965 !important;
   color: #fff !important;
-  border: 1px solid rgba(255,255,255,0.2) !important;
+  border: 0.25px solid rgba(255,255,255,0.2) !important;
   height: 32px !important;   /* FIX: ensures rows are visible */
   padding: 8px !important;
 }
 
 .custom-table .ant-table-thead > tr > th {
-  background: #002b78 !important;
+  background: #002185 !important;
   color: #fff !important;
-  border: 1px solid rgba(255,255,255,0.3) !important;
+  border: 0.5px solid rgba(255,255,255,0.3) !important;
   height: 40px !important;
   padding: 6px !important;
 }
@@ -182,9 +182,9 @@ body {
 
 /* Make TOTAL row appear attached */
 .total-row-table .ant-table-tbody > tr > td {
-  background: rgba(255,255,255,0.1) !important;
+  background: #002185 !important;
   color: #fff !important;
-  border: 1px solid rgba(255,255,255,0.3) !important;
+  border: 0px solid rgba(255,255,255,0.3) !important;
   height: 32px !important;
 }
 
@@ -200,12 +200,13 @@ body {
 
 /* SECTION TITLE */
 .section-title {
-  background: #002b78;
+  background: #001965;
   color: white;
   text-align: center;
-  padding: 8px;
+  padding: 16px;
   border-radius: 6px 6px 0 0;
   font-weight: bold;
+  /* font-size: 1.25rem; */
   margin: 0;
   margin-bottom: 0px;
   border-radius: 10px 10px 0px 0px;
@@ -223,7 +224,7 @@ body {
 
 .custom-date-picker .ant-picker-input > input {
   color: white !important;
-  padding: 0px 10px !important;
+  padding: 0px 6px !important;
 }
 
 .custom-date-picker .ant-picker-suffix {
@@ -262,7 +263,7 @@ body {
   }
 
   .section-title {
-    font-size: 1rem !important;
+    font-size: 1.20rem !important;
   }
 }
 
@@ -304,3 +305,4 @@ body {
     font-size: 1.8rem !important;
   }
 }
+
