@@ -129,6 +129,48 @@ const computeDifference = (lineRows, eolRows) => {
     console.log(loginRes);
   };
 
+  const computeDifferenceTonnage = (lineRows, eolRows) => {
+  const mapify = (rows) =>
+    rows.filter(r => r.key !== "total").reduce((acc, r) => {
+      acc[r.cbu] = r;
+      return acc;
+    }, {});
+
+  const L = mapify(lineRows);
+  const E = mapify(eolRows);
+
+  const all = new Set([...Object.keys(L), ...Object.keys(E)]);
+
+  const diff = [...all].map((code, idx) => ({
+    key: idx,
+    cbu: code,
+
+    a_cld: (L[code]?.a_cld || 0) - (E[code]?.a_cld || 0),
+    a_ton: ((L[code]?.a_ton || 0) - (E[code]?.a_ton || 0)).toFixed(2),
+
+    b_cld: (L[code]?.b_cld || 0) - (E[code]?.b_cld || 0),
+    b_ton: ((L[code]?.b_ton || 0) - (E[code]?.b_ton || 0)).toFixed(2),
+
+    c_cld: (L[code]?.c_cld || 0) - (E[code]?.c_cld || 0),
+    c_ton: ((L[code]?.c_ton || 0) - (E[code]?.c_ton || 0)).toFixed(2),
+  }));
+
+  diff.push({
+    key: "total",
+    cbu: "Total",
+    a_cld: diff.reduce((s,r)=>s+r.a_cld,0),
+    a_ton: diff.reduce((s,r)=>s+Number(r.a_ton),0).toFixed(2),
+    b_cld: diff.reduce((s,r)=>s+r.b_cld,0),
+    b_ton: diff.reduce((s,r)=>s+Number(r.b_ton),0).toFixed(2),
+    c_cld: diff.reduce((s,r)=>s+r.c_cld,0),
+    c_ton: diff.reduce((s,r)=>s+Number(r.c_ton),0).toFixed(2),
+    isTotal: true,
+  });
+
+  return diff;
+};
+
+
   const getShiftEpochs = ({ selectedDate, shift }) => {
     const { start, end } = shiftTimings[1];
 
@@ -150,63 +192,124 @@ const computeDifference = (lineRows, eolRows) => {
       endDateTime: endDateTime.format("YYYY-MM-DD HH:mm:ss"),
     };
   };
+  const applyWeightAndTonnage = (rows, weightMap) => {
+  return rows.map(row => {
+    if (row.key === "total") return row;
+
+    const weight = weightMap[row.cbu] || 0;
+
+    return {
+      ...row,
+      weight,
+      a_ton: (row.a_cld * weight).toFixed(2),
+      b_ton: (row.b_cld * weight).toFixed(2),
+      c_ton: (row.c_cld * weight).toFixed(2),
+    };
+  });
+};
+const fetchCbuWeights = async (uniqueCbus) => {
+  const weightMap = {};
+
+  await Promise.all(
+    uniqueCbus.map(async (cbu) => {
+      try {
+        const endpoint = Endpoint.GET_ALL_GENERAL_PROPERTIES;
+        const res = await apiService.get(endpoint, { property_key: cbu });
+
+        const allProps = res.data?.data || [];
+        const weightProp = allProps.find(p => p.key === "weight");
+
+        weightMap[cbu] = Number(weightProp?.value || 0);
+      } catch (err) {
+        console.error("Weight fetch failed for", cbu);
+        weightMap[cbu] = 0;
+      }
+    })
+  );
+
+  return weightMap;
+};
+
+const recalcTotalRow = (rows) => {
+  const total = rows.find(r => r.key === "total");
+  if (!total) return rows;
+
+  const nonTotal = rows.filter(r => r.key !== "total");
+
+  total.a_ton = nonTotal.reduce((s,r) => s + Number(r.a_ton||0), 0).toFixed(2);
+  total.b_ton = nonTotal.reduce((s,r) => s + Number(r.b_ton||0), 0).toFixed(2);
+  total.c_ton = nonTotal.reduce((s,r) => s + Number(r.c_ton||0), 0).toFixed(2);
+
+  return rows;
+};
+
+
+
 
   const getSessionData = async (start_time, end_time) => {
-  const getSessionEndpoint = Endpoint.GET_SESSION_DATA
-    .replace("{start_time}", start_time)
-    .replace("{end_time}", end_time);
+    const endpoint = Endpoint.GET_SESSION_DATA
+      .replace("{start_time}", start_time)
+      .replace("{end_time}", end_time);
 
-  const res = await apiService.get(getSessionEndpoint);
-  if (res.status !== 200) return;
+    const res = await apiService.get(endpoint);
+    if (res.status !== 200) return;
 
-  const sessions = res.data?.data || [];
+    const sessions = res.data?.data || [];
 
-  // Maps
-  const lineMap = {};    // For CLD
-  const eolMap = {};     // For WMS data
+    const lineMap = {};
+    const eolMap = {};
 
-  sessions.forEach(session => {
-    const isLine = session.name.includes('cld-carton')  // Covers null, undefined, empty string
-    const isEol  = session.name === "wms_data";
+    sessions.forEach((session) => {
+      const isLine = session.name?.includes("cld-carton");
+      const isEol = session.name === "wms_data";
 
-    session.outputs.forEach(out => {
-      const ts = out.created_at;
-      const shift = classifyShift(ts, selectedDate);
-      if (!shift) return;
+      session.outputs.forEach((out) => {
+        const ts = out.created_at;
+        const shift = classifyShift(ts, selectedDate);
+        if (!shift) return;
 
-      // ---------- LINE COUNTER ----------
-      if (isLine) {
-        const detected = out.units?.find(u => u.output_key === "detected")?.output_value;
-        if (!detected || !CBU_REGEX.test(detected)) return;
+        if (isLine) {
+          const detected = out.units?.find((u) => u.output_key === "detected")?.output_value;
+          if (!detected || !CBU_REGEX.test(detected)) return;
 
-        if (!lineMap[detected]) lineMap[detected] = { A: 0, B: 0, C: 0 };
-        lineMap[detected][shift] += 1;
-      }
+          if (!lineMap[detected]) lineMap[detected] = { A: 0, B: 0, C: 0 };
+          lineMap[detected][shift]++;
+        }
 
-      // ---------- EOL COUNTER ----------
-      if (isEol) {
-        const code = out.units?.find(u => u.output_key === "ProductCode")?.output_value;
-        if (!code) return;
+        if (isEol) {
+          const code = out.units?.find((u) => u.output_key === "ProductCode")?.output_value;
+          if (!code) return;
 
-        if (!eolMap[code]) eolMap[code] = { A: 0, B: 0, C: 0 };
-        eolMap[code][shift] += 1;
-      }
+          if (!eolMap[code]) eolMap[code] = { A: 0, B: 0, C: 0 };
+          eolMap[code][shift]++;
+        }
+      });
     });
-  });
 
-  // Convert maps → rows
-  const lineRows = convertToTableRows(lineMap);
-  const eolRows  = convertToTableRows(eolMap);
-  const diffRows = computeDifference(lineRows, eolRows);
+    const lineRows = convertToTableRows(lineMap);
+    const eolRows = convertToTableRows(eolMap);
 
-  setLineTable(lineRows);
-  setEolTable(eolRows);
-  setDiffTable(diffRows);
+    const allUniqueCbu = Array.from(
+      new Set([
+        ...lineRows.filter((r) => r.key !== "total").map((r) => r.cbu),
+        ...eolRows.filter((r) => r.key !== "total").map((r) => r.cbu),
+      ])
+    );
 
-  console.log(lineRows);
-  console.log(eolRows);
-  console.log(diffRows);
-};
+    const weightMap = await fetchCbuWeights(allUniqueCbu);
+
+    let lineWeighted = applyWeightAndTonnage(lineRows, weightMap);
+    let eolWeighted = applyWeightAndTonnage(eolRows, weightMap);
+
+    lineWeighted = recalcTotalRow(lineWeighted);
+    eolWeighted = recalcTotalRow(eolWeighted);
+
+    const diffRows = computeDifferenceTonnage(lineWeighted, eolWeighted);
+
+    setLineTable(lineWeighted);
+    setEolTable(eolWeighted);
+    setDiffTable(diffRows);
+  };
 
 
 
