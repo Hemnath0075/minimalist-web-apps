@@ -4,7 +4,7 @@ import { DatePicker, Image, Spin } from "antd";
 import dayjs from "dayjs";
 import { CiCalendar } from "react-icons/ci";
 
-function Header({ onDateChange }) {
+function Header({ selectedDate,onDateChange }) {
   const {
     register,
     handleSubmit,
@@ -12,40 +12,46 @@ function Header({ onDateChange }) {
     watch,
     formState: { errors },
     getValues,
-  } = useForm();
+  } = useForm({
+  defaultValues: {
+    selectedDate,  // <-- prefill the form with parent value
+  },
+});
 
   return (
-    <div className="w-full bg-secondary rounded-[10px] flex flex-row justify-between p-4 items-center">
-      <div className="flex flex-row gap-4 items-center ">
-        <img src="/unilever.svg" alt="" className="w-[70px] h-[70px]" />
-        <div className="w-[2  px] h-[4vh] bg-white text-white"></div>
-        <p className="text-3xl text-white font-[600]">
+    <div className="header-main w-full bg-secondary rounded-[10px] flex flex-row justify-between px-6 py-2 items-center">
+      <div className="flex flex-row gap-4 items-center">
+        <img src="/unilever.svg" alt="" className="header-logo" />
+
+        <div className="header-divider w-[2px] h-[40px] bg-white"></div>
+        <p className="header-title text-white font-[600]">
           Real Time Production Counter
         </p>
       </div>
-      <div className="flex flex-col gap-1">
-        {/* <label className="text-[1rem] font-[400] text-[#090C13] capitalize">
+      <div className="flex flex-row justify-center items-center text-white gap-1">
+        {/* <label className="text-[1rem] text-whit font-[400] text-[#090C13] capitalize">
           Select Date{" "}
         </label> */}
         <Controller
           name="selectedDate"
+          
           control={control} // comes from useForm()
           rules={{ required: "Please select a date" }}
           render={({ field: { onChange, value }, fieldState: { error } }) => (
             <div className="relative">
               <DatePicker
                 value={value ? dayjs(value, "DD-MM-YYYY") : null}
-                className="basis-[23%] w-full custom-date-picker"
+                className="basis-[15%] w-full custom-date-picker"
                 suffixIcon={<div></div>}
                 style={{
-                  padding: "14px 14px",
-                  backgroundColor: "#5794F1",
+                  padding: "8px 14px",
+                  backgroundColor: "#001E7A",
                   color: "white",
-                  border: "none",
+                  border: "1px solid #0031A2",
                   borderRadius: "8px",
                   marginTop: "4px",
-                  fontSize: "1.5rem",
-                  fontWeight: "500",
+                  fontSize: "1rem",
+                  fontWeight: "400",
                   textAlign: "center",
                 }}
                 format="DD-MM-YYYY"
@@ -56,10 +62,10 @@ function Header({ onDateChange }) {
               />
 
               <CiCalendar
-                color="#1016D1"
-                fontSize={"2.5vmin"}
-                className="absolute right-[2.5%] top-[35%]"
-              />
+  color="#ffffff"
+  className="header-calendar-icon absolute"
+/>
+
               {error && (
                 <p className="text-red-500 text-sm mt-1">{error.message}</p>
               )}

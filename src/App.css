@@ -1,150 +1,51 @@
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* font-family: "Poppins",sans-serif; */
+  scrollbar-width: none !important; /* Firefox */
 }
 
-/* Thin (100) */
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-Thin.ttf') format('truetype');
-  font-weight: 100;
-  font-style: normal;
+/* Chrome, Edge, Safari */
+*::-webkit-scrollbar {
+  display: none !important;
 }
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-ThinItalic.ttf') format('truetype');
-  font-weight: 100;
-  font-style: italic;
-}
-/* ExtraLight (200) */
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-ExtraLight.ttf') format('truetype');
-  font-weight: 200;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-ExtraLightItalic.ttf') format('truetype');
-  font-weight: 200;
-  font-style: italic;
-}
-/* Light (300) */
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-LightItalic.ttf') format('truetype');
-  font-weight: 300;
-  font-style: italic;
-}
-/* Regular (400) */
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-Regular.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-Italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-}
-/* Medium (500) */
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-MediumItalic.ttf') format('truetype');
-  font-weight: 500;
-  font-style: italic;
-}
-/* SemiBold (600) */
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-SemiBold.ttf') format('truetype');
-  font-weight: 600;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-SemiBoldItalic.ttf') format('truetype');
-  font-weight: 600;
-  font-style: italic;
-}
-/* Bold (700) */
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-BoldItalic.ttf') format('truetype');
-  font-weight: 700;
-  font-style: italic;
-}
-/* ExtraBold (800) */
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-ExtraBold.ttf') format('truetype');
-  font-weight: 800;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-ExtraBoldItalic.ttf') format('truetype');
-  font-weight: 800;
-  font-style: italic;
-}
-/* Black (900) */
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-Black.ttf') format('truetype');
-  font-weight: 900;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Poppins';
-  src: url('fonts/Poppins-BlackItalic.ttf') format('truetype');
-  font-weight: 900;
-  font-style: italic;
-}
-/* Global usage */
+
+/* ===== POPPINS FONTS ===== */
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Thin.ttf'); font-weight: 100; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ThinItalic.ttf'); font-weight: 100; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ExtraLight.ttf'); font-weight: 200; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ExtraLightItalic.ttf'); font-weight: 200; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Light.ttf'); font-weight: 300; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-LightItalic.ttf'); font-weight: 300; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Regular.ttf'); font-weight: 400; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Italic.ttf'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Medium.ttf'); font-weight: 500; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-MediumItalic.ttf'); font-weight: 500; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-SemiBold.ttf'); font-weight: 600; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-SemiBoldItalic.ttf'); font-weight: 600; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Bold.ttf'); font-weight: 700; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-BoldItalic.ttf'); font-weight: 700; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ExtraBold.ttf'); font-weight: 800; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ExtraBoldItalic.ttf'); font-weight: 800; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Black.ttf'); font-weight: 900; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-BlackItalic.ttf'); font-weight: 900; font-style: italic; }
+
 body {
   font-family: 'Poppins', sans-serif;
 }
 
+/* ================== TABLE / ANT DESIGN ================== */
 
-/* Global usage */
-body {
-  font-family: 'Poppins', sans-serif;
-}
-
-/* highlight the TOTAL row */
 .custom-table .ant-table-tbody > tr.total-row td {
   background: #002185 !important;
   font-weight: bold;
 }
 
-.ant-table-wrapper .ant-table.ant-table-bordered >.ant-table-container {
-  border-inline-start : none !important;
+.ant-table-wrapper .ant-table.ant-table-bordered > .ant-table-container {
+  border-inline-start: none !important;
   border-top: none !important;
 }
 
-/* Prevent entire table from stretching */
 .custom-table .ant-table {
   background: #001b57 !important;
 }
@@ -152,82 +53,148 @@ body {
 .custom-table .ant-table-tbody > tr > td {
   background: #001965 !important;
   color: #fff !important;
-  border: 0.25px solid rgba(255,255,255,0.2) !important;
-  height: 32px !important;   /* FIX: ensures rows are visible */
+  border: 0.25px solid #0031A2 !important;
+  height: 32px !important;
   padding: 8px !important;
 }
 
 .custom-table .ant-table-thead > tr > th {
   background: #002185 !important;
   color: #fff !important;
-  border: 0.5px solid rgba(255,255,255,0.3) !important;
+  border: 0.5px solid #0031A2 !important;
   height: 40px !important;
   padding: 6px !important;
 }
 
-/* FIX: make empty rows actually visible */
 .ant-table-placeholder {
   display: none !important;
 }
 
-/* FIX: Remove big white background created by AntD */
 .ant-table-body {
   background: transparent !important;
 }
 
-/* Prevent auto expansion */
 .ant-table-container {
   height: auto !important;
 }
 
-/* Make TOTAL row appear attached */
-.total-row-table .ant-table-tbody > tr > td {
-  background: #002185 !important;
-  color: #fff !important;
-  border: 0px solid rgba(255,255,255,0.3) !important;
-  height: 32px !important;
-}
-
-/* Make entire table compact like your screenshot */
 .ant-table-wrapper {
   margin-bottom: 0;
 }
 
-.section-box {
-  padding: 0 !important;
-  margin-top: 12px;
+.custom-table {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-/* SECTION TITLE */
+.custom-table .ant-table-wrapper {
+  height: 100%;
+}
+
+.custom-table .ant-table {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-table .ant-table-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-table .ant-table-body {
+  flex: 1;
+  overflow-y: auto !important;
+}
+
+.custom-table .ant-table-thead > tr > th {
+  position: sticky !important;
+  top: 0;
+  z-index: 10;
+  background: #002b5c;
+}
+
+.total-row > td {
+  position: sticky !important;
+  bottom: 0;
+  background: #001a38 !important;
+  z-index: 9;
+  font-weight: bold;
+  border-top: 2px solid #0af;
+}
+
+.ant-table-cell {
+  white-space: nowrap;
+}
+
+/* ================== SECTION / LAYOUT ================== */
+
+.section-box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: visible !important;
+}
+
 .section-title {
   background: #001965;
   color: white;
-  text-align: center;
   padding: 16px;
-  border-radius: 6px 6px 0 0;
+  text-align: center;
   font-weight: bold;
-  /* font-size: 1.25rem; */
-  margin: 0;
-  margin-bottom: 0px;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0 0;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
 }
 
-/* Align top row containers */
+.section-scroll {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* ================== LAYOUT (TOP/BOTTOM ROWS) ================== */
+
+.main-container {
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+}
+
 .top-row {
   display: flex;
-  gap: 20px;
+  gap: 16px;
+  height: 40%;
 }
 
+.bottom-row {
+  height: 60%;
+  margin-top: 16px;
+}
+
+.top-row .box,
 .box {
   flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
 }
 
-.custom-date-picker .ant-picker-input > input {
-  color: white !important;
-  padding: 0px 6px !important;
+.bottom-row .box {
+  height: 100%;
 }
 
-.custom-date-picker .ant-picker-suffix {
+/* ================== DATE PICKER ================== */
+
+.custom-date-picker .ant-picker-input > input,
+.custom-date-picker .ant-picker-suffix,
+.custom-date-picker .ant-picker-input > span,
+.custom-date-picker .ant-picker-separator,
+.ant-picker-input > input::placeholder {
   color: white !important;
 }
 
@@ -235,74 +202,176 @@ body {
   background-color: #5794F1 !important;
 }
 
-.custom-date-picker .ant-picker-input > span {
-  color: white !important;
-}
+/* ================== RESPONSIVE TEXT SIZES ================== */
 
-.custom-date-picker .ant-picker-separator {
-  color: white !important;
-}
-
-.ant-picker-input>input::placeholder {
-   color: white !important;
-}
-
-/* Base (for 13–15 inch laptops) */
 .custom-table .ant-table-thead > tr > th,
 .custom-table .ant-table-tbody > tr > td {
   font-size: 0.9rem !important;
   padding: 8px 10px !important;
 }
 
-/* Medium screens — 17 inch monitors (1366px–1600px) */
 @media screen and (min-width: 1366px) {
   .custom-table .ant-table-thead > tr > th,
   .custom-table .ant-table-tbody > tr > td {
     font-size: 1rem !important;
-    padding: 8px 10px !important;
   }
-
   .section-title {
-    font-size: 1.20rem !important;
+    font-size: 1.2rem !important;
   }
 }
 
-/* Large monitors — 1080p (≥ 1920px) */
 @media screen and (min-width: 1920px) {
   .custom-table .ant-table-thead > tr > th,
   .custom-table .ant-table-tbody > tr > td {
     font-size: 1.15rem !important;
     padding: 14px 18px !important;
   }
-
   .section-title {
     font-size: 1.4rem !important;
   }
 }
 
-/* 2K / 4K Screens — ≥ 2560px */
 @media screen and (min-width: 2560px) {
   .custom-table .ant-table-thead > tr > th,
   .custom-table .ant-table-tbody > tr > td {
     font-size: 1.35rem !important;
     padding: 18px 24px !important;
   }
-
   .section-title {
     font-size: 1.6rem !important;
   }
 }
 
-/* Ultra-wide monitors — 34–49 inch (≥ 3440px) */
 @media screen and (min-width: 3440px) {
   .custom-table .ant-table-thead > tr > th,
   .custom-table .ant-table-tbody > tr > td {
     font-size: 1.6rem !important;
     padding: 22px 30px !important;
   }
-
   .section-title {
     font-size: 1.8rem !important;
   }
 }
 
+@media screen and (max-width: 1366px) and (max-height: 768px) {
+
+  /* Reduce CBU table fonts */
+  .custom-table .ant-table-thead > tr > th,
+  .custom-table .ant-table-tbody > tr > td {
+    font-size: 0.75rem !important;
+    padding: 4px 6px !important;  /* reduced padding */
+    height: 26px !important;      /* smaller row height */
+  }
+
+  /* Section title smaller */
+  .section-title {
+    font-size: 0.95rem !important;
+    padding: 10px !important;     /* reduce height */
+  }
+
+  /* Table header height */
+  .custom-table .ant-table-thead > tr > th {
+    height: 32px !important;
+  }
+
+  /* Make total row slightly smaller */
+  .total-row > td {
+    font-size: 0.8rem !important;
+    padding: 4px 6px !important;
+    height: 28px !important;
+  }
+
+  /* Make date picker smaller */
+  .custom-date-picker .ant-picker {
+    padding: 2px 6px !important;
+    font-size: 0.5rem !important;
+  }
+
+  /* Table scroll container adjusts to smaller screens */
+  .section-scroll {
+    padding-bottom: 4px;
+  }
+
+  /* Reduce gaps between blocks */
+  .top-row {
+    gap: 10px !important;
+  }
+
+  .bottom-row {
+    margin-top: 10px !important;
+  }
+}
+
+@media screen and (max-width: 1366px) and (max-height: 768px) {
+
+  /* Header container spacing */
+  .header-main {
+    padding: 8px 16px !important;
+  }
+
+  /* Logo smaller */
+  .header-logo {
+    width: 45px !important;
+    height: 45px !important;
+  }
+
+  /* Divider height smaller */
+  .header-divider {
+    height: 5vh !important;
+  }
+
+  /* Title smaller */
+  .header-title {
+    font-size: 1.2rem !important;
+    font-weight: 600 !important;
+  }
+
+  /* Date picker smaller */
+  .custom-date-picker .ant-picker {
+    padding: 6px 10px !important;
+    font-size: 0.5rem !important;
+  }
+
+  .custom-date-picker .ant-picker-input > input {
+    font-size: 0.75rem !important;
+  }
+
+  /* Calendar icon smaller */
+  .header-calendar-icon {
+    font-size: 18px !important;
+    right: 8px !important;
+    top: 30% !important;
+  }
+}
+
+/* REMOVE ALL TABLE BORDER RADIUS COMPLETELY */
+.custom-table,
+.custom-table .ant-table,
+.custom-table .ant-table-container,
+.custom-table .ant-table-content,
+.custom-table .ant-table-thead,
+.custom-table .ant-table-tbody,
+.custom-table .ant-table-wrapper,
+.custom-table table,
+.custom-table .ant-table-cell,
+.custom-table .ant-table-row,
+.custom-table .ant-table-thead > tr > th,
+.custom-table .ant-table-tbody > tr > td {
+  border-radius: 0 !important;
+}
+
+/* Header Row 1 — Group headers (CBU, A, B, C) */
+.custom-table .ant-table-thead > tr:nth-child(1) > th {
+  position: sticky !important;
+  top: 20; /* stick below section-title */
+  z-index: 12;
+  background: #002185 !important;
+}
+
+/* Header Row 2 — CLD and Tonnage row */
+.custom-table .ant-table-thead > tr:nth-child(2) > th {
+  position: sticky !important;
+  top: 30px; /* height of first header row */
+  z-index: 11;
+  background: #002185 !important;
+}

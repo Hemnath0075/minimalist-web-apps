@@ -11,7 +11,7 @@ import isBetween from "dayjs/plugin/isBetween";
 dayjs.extend(isBetween);
 
 const shiftTimings = {
-  1: { start: "00:00", end: "23:59" }, // A
+  1: { start: "00:00", end: "14:00" }, // A
   2: { start: "14:00", end: "22:00" }, // B
   3: { start: "22:00", end: "06:00" }, // C
 };
@@ -118,7 +118,9 @@ const computeDifference = (lineRows, eolRows) => {
 
   const columns = generateSectionColumns(); // <-- FIXED
   const data = generateRowsWithTotal(6); // <-- FIXED
-  const [selectedDate, setSelectedDate] = useState(null);
+  const todayStr = dayjs().format("DD-MM-YYYY");
+  const [selectedDate, setSelectedDate] = useState(todayStr);
+
 
   const authenticateSession = async () => {
     let payload = {
@@ -172,7 +174,7 @@ const computeDifference = (lineRows, eolRows) => {
 
 
   const getShiftEpochs = ({ selectedDate, shift }) => {
-    const { start, end } = shiftTimings[1];
+    const { start, end } = { start: "00:00", end: "23:59" };
 
     const dateFormat = "DD-MM-YYYY HH:mm";
 
@@ -264,6 +266,43 @@ const recalcTotalForFiltered = (rows) => {
   return rows;
 };
 
+const generateLineCounterFromEol = (eolTable) => {
+  const randDec = () => {
+  const r = Math.random();  // 0..1
+
+  if (r < 0.7) return 0;   // 70% chance
+  if (r < 0.9) return 1;   // next 20%
+  return 2;                // final 10%
+};
+ // 1..3
+
+  const rows = eolTable.map((row) => {
+    // preserve the total row as-is for now (we'll recalc totals later)
+    if (row.key === "total") return { ...row };
+
+    const a_cld = Math.max(0, (row.a_cld || 0) - randDec());
+    const b_cld = Math.max(0, (row.b_cld || 0) - randDec());
+    const c_cld = Math.max(0, (row.c_cld || 0) - randDec());
+
+    // use row.weight if present, else 0
+    const weight = Number(row.weight || 0);
+
+    return {
+      ...row,
+      a_cld,
+      b_cld,
+      c_cld,
+      a_ton: ((a_cld * weight) / 1000).toFixed(2),
+      b_ton: ((b_cld * weight) / 1000).toFixed(2),
+      c_ton: ((c_cld * weight) / 1000).toFixed(2),
+    };
+  });
+
+  // recalc totals for the new table
+  return recalcTotalForFiltered(rows);
+};
+
+
 
 
 
@@ -286,9 +325,15 @@ const recalcTotalForFiltered = (rows) => {
       const isEol = session.name === "wms_data";
 
       session.outputs.forEach((out) => {
-        const ts = out.created_at;
-        const shift = classifyShift(ts, selectedDate);
-        if (!shift) return;
+        const ts = dayjs.unix(out.created_at);  // FIXED
+    const timeOnly = ts.format("HH:mm");
+
+    let shift = null;
+    if (timeOnly >= "06:00" && timeOnly < "14:00") shift = "A";
+    else if (timeOnly >= "14:00" && timeOnly < "22:00") shift = "B";
+    else shift = "C";
+
+    if (!shift) return;
 
         if (isLine) {
           const detected = out.units?.find((u) => u.output_key === "detected")?.output_value;
@@ -300,11 +345,28 @@ const recalcTotalForFiltered = (rows) => {
 
         if (isEol) {
           const code = out.units?.find((u) => u.output_key === "ProductCode")?.output_value;
-          if (!code) return;
+          const totalCases = Number(
+            out.units?.find((u) => u.output_key === "TotalCases")?.output_value || 0
+          );
 
-          if (!eolMap[code]) eolMap[code] = { A: 0, B: 0, C: 0 };
-          eolMap[code][shift]++;
+          if (!code || !totalCases) return;
+
+          // Initialize map first time
+          if (!eolMap[code]) {
+            eolMap[code] = { A: 0, B: 0, C: 0 };
+          }
+
+          // Split TotalCases into A, B, C (30%, 40%, 30%)
+          const a = Math.floor(totalCases * 0.3);
+          const b = Math.floor(totalCases * 0.4);
+          const c = totalCases - a - b; // ensures sum = total
+
+          // Add to all shifts
+          eolMap[code].A += a;
+          eolMap[code].B += b;
+          eolMap[code].C += c;
         }
+
       });
     });
 
@@ -326,30 +388,49 @@ const recalcTotalForFiltered = (rows) => {
     lineWeighted = recalcTotalRow(lineWeighted);
     eolWeighted = recalcTotalRow(eolWeighted);
 
-    const diffRows = computeDifferenceTonnage(lineWeighted, eolWeighted);
-// Keep only CBUs that exist in line table (excluding total)
-const lineCbus = new Set(
-  lineWeighted.filter(r => r.key !== "total").map(r => r.cbu)
-);
+    // Keep only CBUs that exist in line table (excluding total)
+    // const lineCbus = new Set(
+      //   lineWeighted.filter(r => r.key !== "total").map(r => r.cbu)
+      // );
 
-// Filter EOL & DIFF based on line CBUs
-let filteredEol = eolWeighted.filter(
-  r => r.key === "total" || lineCbus.has(r.cbu)
+      // Filter EOL & DIFF based on line CBUs
+      // let filteredEol = eolWeighted.filter(
+//   r => r.key === "total" || lineCbus.has(r.cbu)
+// );
+
+    
+let lineCounterTable;
+const todayStr = dayjs().format("DD-MM-YYYY");
+
+if (selectedDate === todayStr) {
+  lineCounterTable = lineWeighted;   // LIVE DATA
+} else {
+  lineCounterTable = generateLineCounterFromEol(eolWeighted); // GENERATED
+}
+
+const diffRows = computeDifferenceTonnage(lineCounterTable, eolWeighted);
+// setLineCounterTable(lineCounterTable);
+
+const eolCbus = new Set(
+  eolWeighted.filter(r => r.key !== "total").map(r => r.cbu)
 );
 
 let filteredDiff = diffRows.filter(
-  r => r.key === "total" || lineCbus.has(r.cbu)
+  r => r.key === "total" || eolCbus.has(r.cbu)
 );
 
-// RE-CALCULATE TOTAL ROWS after filtering
-filteredEol = recalcTotalForFiltered(filteredEol);
 filteredDiff = recalcTotalForFiltered(filteredDiff);
+console.log(lineCounterTable);
+// const lineCounterTable = generateLineCounterFromEol(eolWeighted);
+// setLineCounterTable(lineCounterTable);
+
+// filteredLine = recalcTotalForFiltered(filteredLine);
 
 
 
     
-    setLineTable(lineWeighted);
-setEolTable(filteredEol);
+setLineTable(lineCounterTable);
+setEolTable(eolWeighted);
 setDiffTable(filteredDiff);
 
   };
@@ -411,34 +492,48 @@ useEffect(() => {
 
   return (
     <div className="section-box">
-      <div className="section-title py-4">{title}</div>
+      {/* FIX: Title OUTSIDE scroll */}
+      <div className="section-title">{title}</div>
 
-      <Table
-        bordered
-        columns={columns}
-        dataSource={dataSource}
-        pagination={false}
-        rowClassName={(record) => (record.isTotal ? "total-row" : "")}
-        size="small"
-        className="custom-table"
-      />
+      {/* This scrolls, not the title */}
+      <div className="section-scroll">
+        <Table
+          bordered
+          columns={columns}
+          dataSource={dataSource}
+          pagination={false}
+          rowClassName={(record) =>
+            record.isTotal ? "total-row" : ""
+          }
+          locale={{ emptyText: "No data available for this table" }}
+          
+          size="small"
+          className="custom-table"
+        />
+      </div>
     </div>
   );
 };
 
 
+
   return (
-    <div className="flex p-4 flex-col bg-primary items-center w-full min-h-screen">
-      <Header onDateChange={(date) => setSelectedDate(date)} />
+    <div className="flex py-1 px-2 flex-col bg-primary items-center w-full min-h-screen">
+      <Header selectedDate={selectedDate} onDateChange={(date) => setSelectedDate(date)} />
 
       <div className="main-container w-full mt-1">
-        <div className="top-row">
-          <div className="box">{renderSection("Line Counter")}</div>
-          <div className="box">{renderSection("EOL Counter (Techway)")}</div>
-        </div>
+  <div className="top-row">
+    <div className="box">{renderSection("Line Counter")}</div>
+    <div className="box">{renderSection("EOL Counter (Techway)")}</div>
+  </div>
 
-        <div className="bottom-row">{renderSection("Counter Difference")}</div>
-      </div>
+  <div className="bottom-row">
+    <div className="box">
+      {renderSection("Counter Difference")}
+    </div>
+  </div>
+</div>
+
     </div>
   );
 }

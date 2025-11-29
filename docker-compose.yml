@@ -1,0 +1,17 @@
+version: '1.0'
+
+services:
+  cld-dash:
+      build:
+          context: ./
+          dockerfile: Dockerfile
+          args:
+            REACT_APP_API_URL_PREFIX: ${REACT_APP_API_URL_PREFIX}
+            REACT_APP_IMAGE_PREFIX: ${REACT_APP_IMAGE_PREFIX}
+            REACT_APP_LIVE_STREAM_PREFIX: ${REACT_APP_LIVE_STREAM_PREFIX}
+            REACT_APP_STATE: ${REACT_APP_STATE}
+            REACT_APP_PIPELINE_ID: ${REACT_APP_PIPELINE_ID}
+            REACT_APP_PIPELINE_SESSION_PROPERTIES: ${REACT_APP_PIPELINE_SESSION_PROPERTIES}
+      restart: always
+      ports:
+        - 81:81
