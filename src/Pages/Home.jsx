@@ -18,160 +18,159 @@ const shiftTimings = {
 
 function Home() {
   const classifyShift = (epochSec, dateStr) => {
-  const ts = dayjs.unix(epochSec);
-  const dayStart = dayjs(dateStr, "DD-MM-YYYY");
+    const ts = dayjs.unix(epochSec);
+    const dayStart = dayjs(dateStr, "DD-MM-YYYY");
 
-  const shift1_start = dayStart.hour(6).minute(0);
-  const shift1_end   = dayStart.hour(14).minute(0);
+    const shift1_start = dayStart.hour(6).minute(0);
+    const shift1_end = dayStart.hour(14).minute(0);
 
-  const shift2_start = dayStart.hour(14).minute(0);
-  const shift2_end   = dayStart.hour(22).minute(0);
+    const shift2_start = dayStart.hour(14).minute(0);
+    const shift2_end = dayStart.hour(22).minute(0);
 
-  const shift3_start = dayStart.hour(22).minute(0);
-  const shift3_end   = dayStart.add(1, "day").hour(6).minute(0);
+    const shift3_start = dayStart.hour(22).minute(0);
+    const shift3_end = dayStart.add(1, "day").hour(6).minute(0);
 
-  if (ts.isBetween(shift1_start, shift1_end, null, "[)")) return "A";
-  if (ts.isBetween(shift2_start, shift2_end, null, "[)")) return "B";
-  if (ts.isBetween(shift3_start, shift3_end, null, "[)")) return "C";
+    if (ts.isBetween(shift1_start, shift1_end, null, "[)")) return "A";
+    if (ts.isBetween(shift2_start, shift2_end, null, "[)")) return "B";
+    if (ts.isBetween(shift3_start, shift3_end, null, "[)")) return "C";
 
-  return null;
-};
-
-const [lineTable, setLineTable] = useState([]);
-const [eolTable, setEolTable] = useState([]);
-const [diffTable, setDiffTable] = useState([]);
-
-const convertToTableRows = (rowMap) => {
-  const rows = Object.entries(rowMap).map(([cbu, shifts], idx) => ({
-    key: idx,
-    cbu,
-    a_cld: shifts.A,
-    a_ton: "-",
-    b_cld: shifts.B,
-    b_ton: "-",
-    c_cld: shifts.C,
-    c_ton: "-",
-  }));
-
-  const totalRow = {
-    key: "total",
-    cbu: "Total",
-    a_cld: rows.reduce((a, r) => a + r.a_cld, 0),
-    a_ton: "-",
-    b_cld: rows.reduce((a, r) => a + r.b_cld, 0),
-    b_ton: "-",
-    c_cld: rows.reduce((a, r) => a + r.c_cld, 0),
-    c_ton: "-",
-    isTotal: true,
+    return null;
   };
 
-  return [...rows, totalRow];
-};
+  const [lineTable, setLineTable] = useState([]);
+  const [eolTable, setEolTable] = useState([]);
+  const [diffTable, setDiffTable] = useState([]);
 
-const computeDifference = (lineRows, eolRows) => {
-  const mapify = (rows) =>
-    rows.filter(r => r.key !== "total").reduce((acc, r) => {
-      acc[r.cbu] = r;
-      return acc;
-    }, {});
+  const convertToTableRows = (rowMap) => {
+    const rows = Object.entries(rowMap).map(([cbu, shifts], idx) => ({
+      key: idx,
+      cbu,
+      a_cld: shifts.A,
+      a_ton: "-",
+      b_cld: shifts.B,
+      b_ton: "-",
+      c_cld: shifts.C,
+      c_ton: "-",
+    }));
 
-  const L = mapify(lineRows);
-  const E = mapify(eolRows);
+    const totalRow = {
+      key: "total",
+      cbu: "Total",
+      a_cld: rows.reduce((a, r) => a + r.a_cld, 0),
+      a_ton: "-",
+      b_cld: rows.reduce((a, r) => a + r.b_cld, 0),
+      b_ton: "-",
+      c_cld: rows.reduce((a, r) => a + r.c_cld, 0),
+      c_ton: "-",
+      isTotal: true,
+    };
 
-  const all = new Set([...Object.keys(L), ...Object.keys(E)]);
+    return [...rows, totalRow];
+  };
 
-  const diff = [...all].map((code, idx) => ({
-    key: idx,
-    cbu: code,
-    a_cld: (L[code]?.a_cld || 0) - (E[code]?.a_cld || 0),
-    a_ton: "-",
-    b_cld: (L[code]?.b_cld || 0) - (E[code]?.b_cld || 0),
-    b_ton: "-",
-    c_cld: (L[code]?.c_cld || 0) - (E[code]?.c_cld || 0),
-    c_ton: "-",
-  }));
+  const computeDifference = (lineRows, eolRows) => {
+    const mapify = (rows) =>
+      rows
+        .filter((r) => r.key !== "total")
+        .reduce((acc, r) => {
+          acc[r.cbu] = r;
+          return acc;
+        }, {});
 
-  // Total row
-  diff.push({
-    key: "total",
-    cbu: "Total",
-    a_cld: diff.reduce((sum, r) => sum + (r.a_cld || 0), 0),
-    a_ton: "-",
-    b_cld: diff.reduce((sum, r) => sum + (r.b_cld || 0), 0),
-    b_ton: "-",
-    c_cld: diff.reduce((sum, r) => sum + (r.c_cld || 0), 0),
-    c_ton: "-",
-    isTotal: true,
-  });
+    const L = mapify(lineRows);
+    const E = mapify(eolRows);
 
-  return diff;
-};
+    const all = new Set([...Object.keys(L), ...Object.keys(E)]);
 
+    const diff = [...all].map((code, idx) => ({
+      key: idx,
+      cbu: code,
+      a_cld: (L[code]?.a_cld || 0) - (E[code]?.a_cld || 0),
+      a_ton: "-",
+      b_cld: (L[code]?.b_cld || 0) - (E[code]?.b_cld || 0),
+      b_ton: "-",
+      c_cld: (L[code]?.c_cld || 0) - (E[code]?.c_cld || 0),
+      c_ton: "-",
+    }));
 
+    // Total row
+    diff.push({
+      key: "total",
+      cbu: "Total",
+      a_cld: diff.reduce((sum, r) => sum + (r.a_cld || 0), 0),
+      a_ton: "-",
+      b_cld: diff.reduce((sum, r) => sum + (r.b_cld || 0), 0),
+      b_ton: "-",
+      c_cld: diff.reduce((sum, r) => sum + (r.c_cld || 0), 0),
+      c_ton: "-",
+      isTotal: true,
+    });
 
+    return diff;
+  };
 
   const [isLoading, setIsLoading] = useState(false);
 
   const [cbuStats, setCbuStats] = useState([]); // <-- store grouped CBU counts
 
-  const CBU_REGEX = /^[A-Z0-9]{6,8}$/; 
+  const CBU_REGEX = /^[A-Z0-9]{6,8}$/;
 
   const columns = generateSectionColumns(); // <-- FIXED
   const data = generateRowsWithTotal(6); // <-- FIXED
   const todayStr = dayjs().format("DD-MM-YYYY");
   const [selectedDate, setSelectedDate] = useState(todayStr);
 
-
-  const authenticateSession = async () => {
-    let payload = {
-      username: "tester",
-      password: "admin_password",
-    };
-    const loginRes = await apiService.login(payload.username,payload.password);
-    console.log(loginRes);
-  };
+  // const authenticateSession = async () => {
+  //   let payload = {
+  //     username: "tester",
+  //     password: "admin_password",
+  //   };
+  //   const loginRes = await apiService.login(payload.username,payload.password);
+  //   console.log(loginRes);
+  // };
 
   const computeDifferenceTonnage = (lineRows, eolRows) => {
-  const mapify = (rows) =>
-    rows.filter(r => r.key !== "total").reduce((acc, r) => {
-      acc[r.cbu] = r;
-      return acc;
-    }, {});
+    const mapify = (rows) =>
+      rows
+        .filter((r) => r.key !== "total")
+        .reduce((acc, r) => {
+          acc[r.cbu] = r;
+          return acc;
+        }, {});
 
-  const L = mapify(lineRows);
-  const E = mapify(eolRows);
+    const L = mapify(lineRows);
+    const E = mapify(eolRows);
 
-  const all = new Set([...Object.keys(L), ...Object.keys(E)]);
+    const all = new Set([...Object.keys(L), ...Object.keys(E)]);
 
-  const diff = [...all].map((code, idx) => ({
-    key: idx,
-    cbu: code,
+    const diff = [...all].map((code, idx) => ({
+      key: idx,
+      cbu: code,
 
-    a_cld: (L[code]?.a_cld || 0) - (E[code]?.a_cld || 0),
-    a_ton: ((L[code]?.a_ton || 0) - (E[code]?.a_ton || 0)).toFixed(2),
+      a_cld: (L[code]?.a_cld || 0) - (E[code]?.a_cld || 0),
+      a_ton: ((L[code]?.a_ton || 0) - (E[code]?.a_ton || 0)).toFixed(2),
 
-    b_cld: (L[code]?.b_cld || 0) - (E[code]?.b_cld || 0),
-    b_ton: ((L[code]?.b_ton || 0) - (E[code]?.b_ton || 0)).toFixed(2),
+      b_cld: (L[code]?.b_cld || 0) - (E[code]?.b_cld || 0),
+      b_ton: ((L[code]?.b_ton || 0) - (E[code]?.b_ton || 0)).toFixed(2),
 
-    c_cld: (L[code]?.c_cld || 0) - (E[code]?.c_cld || 0),
-    c_ton: ((L[code]?.c_ton || 0) - (E[code]?.c_ton || 0)).toFixed(2),
-  }));
+      c_cld: (L[code]?.c_cld || 0) - (E[code]?.c_cld || 0),
+      c_ton: ((L[code]?.c_ton || 0) - (E[code]?.c_ton || 0)).toFixed(2),
+    }));
 
-  diff.push({
-    key: "total",
-    cbu: "Total",
-    a_cld: diff.reduce((s,r)=>s+r.a_cld,0),
-    a_ton: diff.reduce((s,r)=>s+Number(r.a_ton),0).toFixed(2),
-    b_cld: diff.reduce((s,r)=>s+r.b_cld,0),
-    b_ton: diff.reduce((s,r)=>s+Number(r.b_ton),0).toFixed(2),
-    c_cld: diff.reduce((s,r)=>s+r.c_cld,0),
-    c_ton: diff.reduce((s,r)=>s+Number(r.c_ton),0).toFixed(2),
-    isTotal: true,
-  });
+    diff.push({
+      key: "total",
+      cbu: "Total",
+      a_cld: diff.reduce((s, r) => s + r.a_cld, 0),
+      a_ton: diff.reduce((s, r) => s + Number(r.a_ton), 0).toFixed(2),
+      b_cld: diff.reduce((s, r) => s + r.b_cld, 0),
+      b_ton: diff.reduce((s, r) => s + Number(r.b_ton), 0).toFixed(2),
+      c_cld: diff.reduce((s, r) => s + r.c_cld, 0),
+      c_ton: diff.reduce((s, r) => s + Number(r.c_ton), 0).toFixed(2),
+      isTotal: true,
+    });
 
-  return diff;
-};
-
+    return diff;
+  };
 
   const getShiftEpochs = ({ selectedDate, shift }) => {
     const { start, end } = { start: "00:00", end: "23:59" };
@@ -194,123 +193,133 @@ const computeDifference = (lineRows, eolRows) => {
       endDateTime: endDateTime.format("YYYY-MM-DD HH:mm:ss"),
     };
   };
-  
-const applyWeightAndTonnage = (rows, weightMap) => {
-  return rows.map(row => {
-    if (row.key === "total") return row;
 
-    const weight = weightMap[row.cbu] || 0;
+  const applyWeightAndTonnage = (rows, weightMap) => {
+    return rows.map((row) => {
+      if (row.key === "total") return row;
 
-    return {
-      ...row,
-      weight,
+      const weight = weightMap[row.cbu] || 0;
 
-      // correct formula for all shifts
-      a_ton: ((row.a_cld * weight) / 1000).toFixed(2),
-      b_ton: ((row.b_cld * weight) / 1000).toFixed(2),
-      c_ton: ((row.c_cld * weight) / 1000).toFixed(2),
+      return {
+        ...row,
+        weight,
+
+        // correct formula for all shifts
+        a_ton: ((row.a_cld * weight) / 1000).toFixed(2),
+        b_ton: ((row.b_cld * weight) / 1000).toFixed(2),
+        c_ton: ((row.c_cld * weight) / 1000).toFixed(2),
+      };
+    });
+  };
+
+  const fetchCbuWeights = async (uniqueCbus) => {
+    const weightMap = {};
+
+    await Promise.all(
+      uniqueCbus.map(async (cbu) => {
+        try {
+          const endpoint = Endpoint.GET_ALL_GENERAL_PROPERTIES;
+          const res = await apiService.get(endpoint, { property_key: cbu });
+
+          const allProps = res.data?.properties || [];
+          const weightProp = allProps.find(
+            (p) => p.property_label === "weight"
+          );
+
+          weightMap[cbu] = Number(weightProp?.property_value || 0);
+        } catch (err) {
+          console.error("Weight fetch failed for", cbu);
+          weightMap[cbu] = 0;
+        }
+      })
+    );
+
+    return weightMap;
+  };
+
+  const recalcTotalRow = (rows) => {
+    const total = rows.find((r) => r.key === "total");
+    if (!total) return rows;
+
+    const nonTotal = rows.filter((r) => r.key !== "total");
+
+    total.a_ton = nonTotal
+      .reduce((s, r) => s + Number(r.a_ton || 0), 0)
+      .toFixed(2);
+    total.b_ton = nonTotal
+      .reduce((s, r) => s + Number(r.b_ton || 0), 0)
+      .toFixed(2);
+    total.c_ton = nonTotal
+      .reduce((s, r) => s + Number(r.c_ton || 0), 0)
+      .toFixed(2);
+
+    return rows;
+  };
+
+  const recalcTotalForFiltered = (rows) => {
+    const total = rows.find((r) => r.key === "total");
+    if (!total) return rows;
+
+    const nonTotal = rows.filter((r) => r.key !== "total");
+
+    total.a_cld = nonTotal.reduce((s, r) => s + (r.a_cld || 0), 0);
+    total.b_cld = nonTotal.reduce((s, r) => s + (r.b_cld || 0), 0);
+    total.c_cld = nonTotal.reduce((s, r) => s + (r.c_cld || 0), 0);
+
+    total.a_ton = nonTotal
+      .reduce((s, r) => s + Number(r.a_ton || 0), 0)
+      .toFixed(2);
+    total.b_ton = nonTotal
+      .reduce((s, r) => s + Number(r.b_ton || 0), 0)
+      .toFixed(2);
+    total.c_ton = nonTotal
+      .reduce((s, r) => s + Number(r.c_ton || 0), 0)
+      .toFixed(2);
+
+    return rows;
+  };
+
+  const generateLineCounterFromEol = (eolTable) => {
+    const randDec = () => {
+      const r = Math.random(); // 0..1
+
+      if (r < 0.7) return 0; // 70% chance
+      if (r < 0.9) return 1; // next 20%
+      return 2; // final 10%
     };
-  });
-};
+    // 1..3
 
-const fetchCbuWeights = async (uniqueCbus) => {
-  const weightMap = {};
+    const rows = eolTable.map((row) => {
+      // preserve the total row as-is for now (we'll recalc totals later)
+      if (row.key === "total") return { ...row };
 
-  await Promise.all(
-    uniqueCbus.map(async (cbu) => {
-      try {
-        const endpoint = Endpoint.GET_ALL_GENERAL_PROPERTIES;
-        const res = await apiService.get(endpoint, { property_key: cbu });
+      const a_cld = Math.max(0, (row.a_cld || 0) - randDec());
+      const b_cld = Math.max(0, (row.b_cld || 0) - randDec());
+      const c_cld = Math.max(0, (row.c_cld || 0) - randDec());
 
-        const allProps = res.data?.properties || [];
-        const weightProp = allProps.find(p => p.property_label === "weight");
+      // use row.weight if present, else 0
+      const weight = Number(row.weight || 0);
 
-        weightMap[cbu] = Number(weightProp?.property_value || 0);
-      } catch (err) {
-        console.error("Weight fetch failed for", cbu);
-        weightMap[cbu] = 0;
-      }
-    })
-  );
+      return {
+        ...row,
+        a_cld,
+        b_cld,
+        c_cld,
+        a_ton: ((a_cld * weight) / 1000).toFixed(2),
+        b_ton: ((b_cld * weight) / 1000).toFixed(2),
+        c_ton: ((c_cld * weight) / 1000).toFixed(2),
+      };
+    });
 
-  return weightMap;
-};
-
-const recalcTotalRow = (rows) => {
-  const total = rows.find(r => r.key === "total");
-  if (!total) return rows;
-
-  const nonTotal = rows.filter(r => r.key !== "total");
-
-  total.a_ton = nonTotal.reduce((s,r) => s + Number(r.a_ton||0), 0).toFixed(2);
-  total.b_ton = nonTotal.reduce((s,r) => s + Number(r.b_ton||0), 0).toFixed(2);
-  total.c_ton = nonTotal.reduce((s,r) => s + Number(r.c_ton||0), 0).toFixed(2);
-
-  return rows;
-};
-
-const recalcTotalForFiltered = (rows) => {
-  const total = rows.find(r => r.key === "total");
-  if (!total) return rows;
-
-  const nonTotal = rows.filter(r => r.key !== "total");
-
-  total.a_cld = nonTotal.reduce((s,r)=>s + (r.a_cld || 0), 0);
-  total.b_cld = nonTotal.reduce((s,r)=>s + (r.b_cld || 0), 0);
-  total.c_cld = nonTotal.reduce((s,r)=>s + (r.c_cld || 0), 0);
-
-  total.a_ton = nonTotal.reduce((s,r)=>s + Number(r.a_ton || 0), 0).toFixed(2);
-  total.b_ton = nonTotal.reduce((s,r)=>s + Number(r.b_ton || 0), 0).toFixed(2);
-  total.c_ton = nonTotal.reduce((s,r)=>s + Number(r.c_ton || 0), 0).toFixed(2);
-
-  return rows;
-};
-
-const generateLineCounterFromEol = (eolTable) => {
-  const randDec = () => {
-  const r = Math.random();  // 0..1
-
-  if (r < 0.7) return 0;   // 70% chance
-  if (r < 0.9) return 1;   // next 20%
-  return 2;                // final 10%
-};
- // 1..3
-
-  const rows = eolTable.map((row) => {
-    // preserve the total row as-is for now (we'll recalc totals later)
-    if (row.key === "total") return { ...row };
-
-    const a_cld = Math.max(0, (row.a_cld || 0) - randDec());
-    const b_cld = Math.max(0, (row.b_cld || 0) - randDec());
-    const c_cld = Math.max(0, (row.c_cld || 0) - randDec());
-
-    // use row.weight if present, else 0
-    const weight = Number(row.weight || 0);
-
-    return {
-      ...row,
-      a_cld,
-      b_cld,
-      c_cld,
-      a_ton: ((a_cld * weight) / 1000).toFixed(2),
-      b_ton: ((b_cld * weight) / 1000).toFixed(2),
-      c_ton: ((c_cld * weight) / 1000).toFixed(2),
-    };
-  });
-
-  // recalc totals for the new table
-  return recalcTotalForFiltered(rows);
-};
-
-
-
-
-
+    // recalc totals for the new table
+    return recalcTotalForFiltered(rows);
+  };
 
   const getSessionData = async (start_time, end_time) => {
-    const endpoint = Endpoint.GET_SESSION_DATA
-      .replace("{start_time}", start_time)
-      .replace("{end_time}", end_time);
+    const endpoint = Endpoint.GET_SESSION_DATA.replace(
+      "{start_time}",
+      start_time
+    ).replace("{end_time}", end_time);
 
     const res = await apiService.get(endpoint);
     if (res.status !== 200) return;
@@ -325,18 +334,20 @@ const generateLineCounterFromEol = (eolTable) => {
       const isEol = session.name === "wms_data";
 
       session.outputs.forEach((out) => {
-        const ts = dayjs.unix(out.created_at);  // FIXED
-    const timeOnly = ts.format("HH:mm");
+        const ts = dayjs.unix(out.created_at); // FIXED
+        const timeOnly = ts.format("HH:mm");
 
-    let shift = null;
-    if (timeOnly >= "06:00" && timeOnly < "14:00") shift = "A";
-    else if (timeOnly >= "14:00" && timeOnly < "22:00") shift = "B";
-    else shift = "C";
+        let shift = null;
+        if (timeOnly >= "06:00" && timeOnly < "14:00") shift = "A";
+        else if (timeOnly >= "14:00" && timeOnly < "22:00") shift = "B";
+        else shift = "C";
 
-    if (!shift) return;
+        if (!shift) return;
 
         if (isLine) {
-          const detected = out.units?.find((u) => u.output_key === "detected")?.output_value;
+          const detected = out.units?.find(
+            (u) => u.output_key === "detected"
+          )?.output_value;
           if (!detected || !CBU_REGEX.test(detected)) return;
 
           if (!lineMap[detected]) lineMap[detected] = { A: 0, B: 0, C: 0 };
@@ -344,9 +355,12 @@ const generateLineCounterFromEol = (eolTable) => {
         }
 
         if (isEol) {
-          const code = out.units?.find((u) => u.output_key === "ProductCode")?.output_value;
+          const code = out.units?.find(
+            (u) => u.output_key === "ProductCode"
+          )?.output_value;
           const totalCases = Number(
-            out.units?.find((u) => u.output_key === "TotalCases")?.output_value || 0
+            out.units?.find((u) => u.output_key === "TotalCases")
+              ?.output_value || 0
           );
 
           if (!code || !totalCases) return;
@@ -366,7 +380,6 @@ const generateLineCounterFromEol = (eolTable) => {
           eolMap[code].B += b;
           eolMap[code].C += c;
         }
-
       });
     });
 
@@ -390,52 +403,45 @@ const generateLineCounterFromEol = (eolTable) => {
 
     // Keep only CBUs that exist in line table (excluding total)
     // const lineCbus = new Set(
-      //   lineWeighted.filter(r => r.key !== "total").map(r => r.cbu)
-      // );
+    //   lineWeighted.filter(r => r.key !== "total").map(r => r.cbu)
+    // );
 
-      // Filter EOL & DIFF based on line CBUs
-      // let filteredEol = eolWeighted.filter(
-//   r => r.key === "total" || lineCbus.has(r.cbu)
-// );
+    // Filter EOL & DIFF based on line CBUs
+    // let filteredEol = eolWeighted.filter(
+    //   r => r.key === "total" || lineCbus.has(r.cbu)
+    // );
 
-    
-let lineCounterTable;
-const todayStr = dayjs().format("DD-MM-YYYY");
+    let lineCounterTable;
+    const todayStr = dayjs().format("DD-MM-YYYY");
 
-if (selectedDate === todayStr) {
-  lineCounterTable = lineWeighted;   // LIVE DATA
-} else {
-  lineCounterTable = generateLineCounterFromEol(eolWeighted); // GENERATED
-}
+    if (selectedDate === todayStr) {
+      lineCounterTable = lineWeighted; // LIVE DATA
+    } else {
+      lineCounterTable = generateLineCounterFromEol(eolWeighted); // GENERATED
+    }
 
-const diffRows = computeDifferenceTonnage(lineCounterTable, eolWeighted);
-// setLineCounterTable(lineCounterTable);
+    const diffRows = computeDifferenceTonnage(lineCounterTable, eolWeighted);
+    // setLineCounterTable(lineCounterTable);
 
-const eolCbus = new Set(
-  eolWeighted.filter(r => r.key !== "total").map(r => r.cbu)
-);
+    const eolCbus = new Set(
+      eolWeighted.filter((r) => r.key !== "total").map((r) => r.cbu)
+    );
 
-let filteredDiff = diffRows.filter(
-  r => r.key === "total" || eolCbus.has(r.cbu)
-);
+    let filteredDiff = diffRows.filter(
+      (r) => r.key === "total" || eolCbus.has(r.cbu)
+    );
 
-filteredDiff = recalcTotalForFiltered(filteredDiff);
-console.log(lineCounterTable);
-// const lineCounterTable = generateLineCounterFromEol(eolWeighted);
-// setLineCounterTable(lineCounterTable);
+    filteredDiff = recalcTotalForFiltered(filteredDiff);
+    console.log(lineCounterTable);
+    // const lineCounterTable = generateLineCounterFromEol(eolWeighted);
+    // setLineCounterTable(lineCounterTable);
 
-// filteredLine = recalcTotalForFiltered(filteredLine);
+    // filteredLine = recalcTotalForFiltered(filteredLine);
 
-
-
-    
-setLineTable(lineCounterTable);
-setEolTable(eolWeighted);
-setDiffTable(filteredDiff);
-
+    setLineTable(lineCounterTable);
+    setEolTable(eolWeighted);
+    setDiffTable(filteredDiff);
   };
-
-
 
   useEffect(() => {
     if (!selectedDate) return;
@@ -448,92 +454,225 @@ setDiffTable(filteredDiff);
     getSessionData(timestamps.startEpoch, timestamps.endEpoch);
   }, [selectedDate]);
 
-  useEffect(() => {
-    const getData = async () => {
-      await authenticateSession();
-    };
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     await authenticateSession();
+  //   };
+  //   getData();
+  // }, []);
 
   // Auto-refresh every 5 sec ONLY when selected date is today
-useEffect(() => {
-  if (!selectedDate) return;
+  // useEffect(() => {
+  //   if (!selectedDate) return;
 
-  const todayStr = dayjs().format("DD-MM-YYYY");
+  //   const todayStr = dayjs().format("DD-MM-YYYY");
 
-  // if selected date ≠ today → stop polling
-  if (selectedDate !== todayStr) return;
+  //   // if selected date ≠ today → stop polling
+  //   if (selectedDate !== todayStr) return;
 
-  // run immediately
-  const timestamps = getShiftEpochs({ selectedDate, shift: 1 });
-  getSessionData(timestamps.startEpoch, timestamps.endEpoch);
+  //   // run immediately
+  //   const timestamps = getShiftEpochs({ selectedDate, shift: 1 });
+  //   getSessionData(timestamps.startEpoch, timestamps.endEpoch);
 
-  // start interval
-  const interval = setInterval(() => {
-    const ts = getShiftEpochs({ selectedDate, shift: 1 });
-    getSessionData(ts.startEpoch, ts.endEpoch);
-  }, 5000);
+  //   // start interval
+  //   const interval = setInterval(() => {
+  //     const ts = getShiftEpochs({ selectedDate, shift: 1 });
+  //     getSessionData(ts.startEpoch, ts.endEpoch);
+  //   }, 5000);
 
-  // cleanup when date changes
-  return () => clearInterval(interval);
-}, [selectedDate]);
-
+  //   // cleanup when date changes
+  //   return () => clearInterval(interval);
+  // }, [selectedDate]);
 
   const renderSection = (title) => {
-  let dataSource = [];
+    let dataSource = [];
 
-  if (title === "Line Counter") {
-    dataSource = lineTable;
-  } else if (title === "EOL Counter (Techway)") {
-    dataSource = eolTable;
-  } else if (title === "Counter Difference") {
-    dataSource = diffTable;
-  }
+    if (title === "Line Counter") {
+      dataSource = lineTable;
+    } else if (title === "EOL Counter (Techway)") {
+      dataSource = eolTable;
+    } else if (title === "Counter Difference") {
+      dataSource = diffTable;
+    }
 
-  return (
-    <div className="section-box">
-      {/* FIX: Title OUTSIDE scroll */}
-      <div className="section-title">{title}</div>
+    return (
+      <div className="section-box">
+        {/* FIX: Title OUTSIDE scroll */}
+        <div className="section-title">{title}</div>
 
-      {/* This scrolls, not the title */}
-      <div className="section-scroll">
-        <Table
-          bordered
-          columns={columns}
-          dataSource={dataSource}
-          pagination={false}
-          rowClassName={(record) =>
-            record.isTotal ? "total-row" : ""
-          }
-          locale={{ emptyText: "No data available for this table" }}
-          
-          size="small"
-          className="custom-table"
-        />
+        {/* This scrolls, not the title */}
+        <div className="section-scroll">
+          <Table
+            bordered
+            columns={columns}
+            dataSource={dataSource}
+            pagination={false}
+            rowClassName={(record) => (record.isTotal ? "total-row" : "")}
+            locale={{ emptyText: "No data available for this table" }}
+            size="small"
+            className="custom-table"
+          />
+        </div>
       </div>
-    </div>
-  );
-};
-
-
+    );
+  };
 
   return (
     <div className="flex py-1 px-2 flex-col bg-primary items-center w-full min-h-screen">
-      <Header selectedDate={selectedDate} onDateChange={(date) => setSelectedDate(date)} />
+      <Header
+        selectedDate={selectedDate}
+        onDateChange={(date) => setSelectedDate(date)}
+      />
+      {/* ========= TOP KPI ROWS ========= */}
+      <div className="w-full rounded-[10px] bg-secondary p-4 mt-4 flex flex-col gap-4">
+        {/* KPI CARD */}
+        <div className="text-white flex-row w-full justify-center items-center text-center font-[600] text-[1.05rem]">KPIs (YTD)</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-4">
+          <div className="bg-[#000B2C] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
+            <div className="text-md text-gray-300">
+              Cost Budget (Actual/Target)
+            </div>
+            <div className="text-green-400 text-xl font-semibold">
+              1,280 Cr. / 1,320 Cr.
+            </div>
+          </div>
 
-      <div className="main-container w-full mt-1">
-  <div className="top-row">
-    <div className="box">{renderSection("Line Counter")}</div>
-    <div className="box">{renderSection("EOL Counter (Techway)")}</div>
-  </div>
+          <div className="bg-[#000B2C] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
+            <div className="text-md text-gray-300">MOQ Concerns</div>
+            <div className="text-yellow-300 text-xl font-semibold">20</div>
+          </div>
 
-  <div className="bottom-row">
-    <div className="box">
-      {renderSection("Counter Difference")}
-    </div>
-  </div>
-</div>
+          <div className="bg-[#000B2C] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
+            <div className="text-md text-gray-300">Inventory + NMSM</div>
+            <div className="text-red-500 text-xl font-semibold">
+              1,380 Cr. / 1,320 Cr.
+            </div>
+          </div>
 
+          <div className="bg-[#000B2C] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
+            <div className="text-md text-gray-300">DPMU</div>
+            <div className="text-green-400 text-xl font-semibold">
+              6,000 / 8000
+            </div>
+          </div>
+
+          <div className="bg-[#000B2C] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
+            <div className="text-md text-gray-300">
+              OR + Prod vs Booking Gap
+            </div>
+            <div className="text-red-500 text-xl font-semibold">64% / 80%</div>
+          </div>
+        </div>
+      </div>
+
+      {/* ========= COMPLIANCE (3 blocks) ========= */}
+      <div className="w-full max-w-[1800px] mt-6 grid grid-cols-1 xl:grid-cols-3 gap-4">
+        {/* PLAN */}
+        <div className="bg-secondary rounded-xl p-4">
+          <div className="text-gray-200 text-lg font-semibold mb-2">Plan</div>
+
+          <div className="grid grid-cols-3 gap-2">
+            <div className="bg-green-600 rounded-lg text-center py-2">
+              5<br />
+              <span className="text-xs"> {">90%"} </span>
+            </div>
+            <div className="bg-yellow-500 rounded-lg text-center py-2">
+              4<br />
+              <span className="text-xs">{"80-90%"}</span>
+            </div>
+            <div className="bg-red-500 rounded-lg text-center py-2">
+              3<br />
+              <span className="text-xs"> {"<80%"} </span>
+            </div>
+          </div>
+        </div>
+
+        {/* QUALITY */}
+        <div className="bg-secondary rounded-xl p-4">
+          <div className="text-gray-200 text-lg font-semibold mb-2">
+            Quality
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            <div className="bg-green-600 rounded-lg text-center py-2">6</div>
+            <div className="bg-yellow-500 rounded-lg text-center py-2">3</div>
+            <div className="bg-red-500 rounded-lg text-center py-2">2</div>
+          </div>
+        </div>
+
+        {/* PRIORITY PACK */}
+        <div className="bg-secondary rounded-xl p-4">
+          <div className="text-gray-200 text-lg font-semibold mb-2">
+            Priority Pack
+          </div>
+
+          <div className="grid grid-cols-3 gap-2">
+            <div className="bg-green-600 rounded-lg text-center py-2">8</div>
+            <div className="bg-yellow-500 rounded-lg text-center py-2">4</div>
+            <div className="bg-red-500 rounded-lg text-center py-2">1</div>
+          </div>
+        </div>
+      </div>
+
+      {/* ========= DEEP DIVES ========= */}
+      <div className="w-full max-w-[1800px] mt-6 bg-secondary rounded-xl p-4">
+        <div className="text-gray-200 text-lg font-semibold mb-4">
+          Deep Dives
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 xl:grid-cols-6 gap-4">
+          <div className="bg-primary rounded-xl h-24 flex items-center justify-center text-gray-300">
+            Image 1
+          </div>
+          <div className="bg-primary rounded-xl h-24 flex items-center justify-center text-gray-300">
+            Image 2
+          </div>
+          <div className="bg-primary rounded-xl h-24 flex items-center justify-center text-gray-300">
+            Image 3
+          </div>
+          <div className="bg-primary rounded-xl h-24 flex items-center justify-center text-gray-300">
+            Image 4
+          </div>
+          <div className="bg-primary rounded-xl h-24 flex items-center justify-center text-gray-300">
+            Image 5
+          </div>
+          <div className="bg-primary rounded-xl h-24 flex items-center justify-center text-gray-300">
+            Image 6
+          </div>
+        </div>
+      </div>
+
+      {/* ========= TWO TABLES (SIDE-BY-SIDE) ========= */}
+      <div className="w-full max-w-[1800px] mt-6 grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <div className="bg-secondary rounded-xl p-4">
+          <div className="text-gray-200 text-lg font-semibold mb-2">
+            Non - Sachet CMs (WTD)
+          </div>
+
+          <Table
+            className="custom-table"
+            columns={columns}
+            dataSource={lineTable}
+            pagination={false}
+            size="small"
+            scroll={{ x: 900 }}
+          />
+        </div>
+
+        <div className="bg-secondary rounded-xl p-4">
+          <div className="text-gray-200 text-lg font-semibold mb-2">
+            Sachet CMs (WTD)
+          </div>
+
+          <Table
+            className="custom-table"
+            columns={columns}
+            dataSource={eolTable}
+            pagination={false}
+            size="small"
+            scroll={{ x: 900 }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
