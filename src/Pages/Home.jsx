@@ -221,7 +221,7 @@ function Home() {
             <div className="text-gray-300 font-[600] text-responsive">
               Cost Budget (Actual/Target)
             </div>
-            <div className="text-green font-semibold text-responsive">
+            <div className="text-green font-semibold text-xl">
               1,280 Cr. <span className="text-white">/</span>{" "}
               <span className="text-yellow">1,320 Cr.</span>
             </div>
@@ -243,7 +243,7 @@ function Home() {
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
             <div className="text-gray-300 font-[600] text-responsive">DPMU</div>
-            <div className="text-green font-semibold text-responsive">6,000 / 8000</div>
+            <div className="text-green font-semibold text-xl">6,000 / 8000</div>
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">

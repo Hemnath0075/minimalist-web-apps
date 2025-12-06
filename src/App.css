@@ -718,8 +718,8 @@ input:focus {
   border-color: #083283 !important;
   box-shadow: 0 0 0 1px #9aa4b2 !important;
   border-radius: 10px !important;
-  border: none !important;
   background-color: #000e38 !important;
+  border: 1px solid #083283 !important;
   color: white !important;
 }
 
@@ -953,3 +953,10 @@ ant-picker
   font-size: 1.6rem !important;
   font-weight: 600 !important;
 }
+
+.my-select .rs__control {
+  border-color: #CDD5DF !important;
+  box-shadow: none !important; /* IMPORTANT */
+  background: #ffffff !important;
+}
+
