@@ -2,6 +2,9 @@ import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
 import { useEffect, useState } from "react";
 import Home from "./Pages/Home";
+import Second from "./Pages/Second";
+import Third from "./Pages/Third";
+import Fourth from "./Pages/Fourth";
 
 
 function App() {
@@ -44,7 +47,10 @@ const Main = () => {
       <div className="w-full">
         {/* <Sidenav isCollapsed={isCollapsed} toggleCollapsed={toggleCollapsed} /> */}
         <Routes>
-          <Route path="/" element={<Home isCollapsed={isCollapsed}/>} />
+          <Route path="/1" element={<Home isCollapsed={isCollapsed}/>} />
+          <Route path="/2" element={<Second isCollapsed={isCollapsed}/>} />
+          <Route path="/3" element={<Third isCollapsed={isCollapsed}/>} />
+          <Route path="/4" element={<Fourth isCollapsed={isCollapsed}/>} />
         </Routes>
       </div>
     </>

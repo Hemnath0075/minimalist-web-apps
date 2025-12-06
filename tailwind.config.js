@@ -15,6 +15,27 @@ module.exports = {
           light: '#001040',
           dark: '#B45309',
         },
+        yellow:{
+          DEFAULT:'#DEC20E'
+        },
+        green:{
+          DEFAULT: '#00E03C'
+        },
+        red:{
+          DEFAULT: '#EB2400'
+        },
+        cardgreen:{
+          DEFAULT: '#068026'
+        },
+        cardorange:{
+          DEFAULT: '#C86400'
+        },
+        cardred:{
+          DEFAULT: '#B71F04'
+        },
+        containergreen:{
+          DEFAULT: '#0B343C'
+        },
       },
     },
   },

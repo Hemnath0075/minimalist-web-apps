@@ -10,7 +10,46 @@
   display: none !important;
 }
 
-/* ===== POPPINS FONTS ===== */
+:root {
+  --fs-xs: clamp(0.55rem, 0.6vw, 0.75rem);
+  --fs-sm: clamp(0.75rem, 0.7vw, 0.95rem);
+  --fs-md: clamp(0.9rem, 0.85vw, 1.15rem);
+  --fs-lg: clamp(1.1rem, 1.2vw, 1.5rem);
+  --fs-xl: clamp(1.3rem, 1.6vw, 2rem);
+
+  --pd-sm: clamp(4px, 0.5vw, 10px);
+  --pd-md: clamp(6px, 0.7vw, 14px);
+  --pd-lg: clamp(10px, 1vw, 24px);
+}
+
+.kpi-card-title {
+  font-size: var(--fs-lg);
+}
+
+.kpi-card-value {
+  font-size: var(--fs-xl);
+}
+
+.kpi-card {
+  padding: var(--pd-lg);
+}
+
+/* Scales text based on screen width */
+.text-responsive {
+  font-size: clamp(0.75rem, 0.9vw, 1.4rem);
+}
+
+/* Scales padding based on screen width */
+.p-responsive {
+  padding: clamp(4px, 0.6vw, 20px);
+}
+
+/* Scales gap across layouts */
+.gap-responsive {
+  gap: clamp(4px, 0.8vw, 32px);
+}
+
+/* ===== POPPINS FONTS =====
 @font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Thin.ttf'); font-weight: 100; }
 @font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ThinItalic.ttf'); font-weight: 100; font-style: italic; }
 @font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ExtraLight.ttf'); font-weight: 200; }
@@ -28,10 +67,10 @@
 @font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ExtraBold.ttf'); font-weight: 800; }
 @font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ExtraBoldItalic.ttf'); font-weight: 800; font-style: italic; }
 @font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Black.ttf'); font-weight: 900; }
-@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-BlackItalic.ttf'); font-weight: 900; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-BlackItalic.ttf'); font-weight: 900; font-style: italic; } */
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "roboto", sans-serif;
 }
 
 /* ================== TABLE / ANT DESIGN ================== */
@@ -53,7 +92,7 @@ body {
 .custom-table .ant-table-tbody > tr > td {
   background: #001965 !important;
   color: #fff !important;
-  border: 0.25px solid #0031A2 !important;
+  border: 0.25px solid #0031a2 !important;
   height: 32px !important;
   padding: 8px !important;
 }
@@ -61,7 +100,7 @@ body {
 .custom-table .ant-table-thead > tr > th {
   background: #002185 !important;
   color: #fff !important;
-  border: 0.5px solid #0031A2 !important;
+  border: 0.5px solid #0031a2 !important;
   height: 40px !important;
   padding: 6px !important;
 }
@@ -199,7 +238,7 @@ body {
 }
 
 .custom-date-picker .ant-picker {
-  background-color: #5794F1 !important;
+  background-color: #5794f1 !important;
 }
 
 /* ================== RESPONSIVE TEXT SIZES ================== */
@@ -254,19 +293,18 @@ body {
 }
 
 @media screen and (max-width: 1366px) and (max-height: 768px) {
-
   /* Reduce CBU table fonts */
   .custom-table .ant-table-thead > tr > th,
   .custom-table .ant-table-tbody > tr > td {
     font-size: 0.75rem !important;
-    padding: 4px 6px !important;  /* reduced padding */
-    height: 26px !important;      /* smaller row height */
+    padding: 4px 6px !important; /* reduced padding */
+    height: 26px !important; /* smaller row height */
   }
 
   /* Section title smaller */
   .section-title {
     font-size: 0.95rem !important;
-    padding: 10px !important;     /* reduce height */
+    padding: 10px !important; /* reduce height */
   }
 
   /* Table header height */
@@ -303,7 +341,6 @@ body {
 }
 
 @media screen and (max-width: 1366px) and (max-height: 768px) {
-
   /* Header container spacing */
   .header-main {
     padding: 8px 16px !important;
@@ -322,7 +359,7 @@ body {
 
   /* Title smaller */
   .header-title {
-    font-size: 1.2rem !important;
+    font-size: 1.4rem !important;
     font-weight: 600 !important;
   }
 
@@ -397,10 +434,8 @@ input:focus {
   width: 100% !important;
 }
 
-
 .heroimage {
-  box-shadow: -12px 12px 94px 0px #0000001A;
-
+  box-shadow: -12px 12px 94px 0px #0000001a;
 }
 
 .ant-picker-clear {
@@ -430,11 +465,11 @@ input:focus {
 }
 
 .download_btn {
-  background-color: #1016D1 !important;
+  background-color: #1016d1 !important;
   padding: 1.55% !important;
 }
 
-.ant-picker-input>input {
+.ant-picker-input > input {
   color: black !important;
 }
 
@@ -466,23 +501,25 @@ input:focus {
   border-color: black;
 }
 
-.ant-steps-item-finish .ant-steps-item-icon>.ant-steps-icon {
-  color: #1F36C7 !important;
+.ant-steps-item-finish .ant-steps-item-icon > .ant-steps-icon {
+  color: #1f36c7 !important;
 }
 
 .ant-steps-item-process .ant-steps-item-icon {
-  background-color: #1F36C7 !important;
+  background-color: #1f36c7 !important;
 }
 
-.ant-steps .ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-tail::after {
-  background-color: #1F36C7 !important;
+.ant-steps
+  .ant-steps-item-finish
+  > .ant-steps-item-container
+  > .ant-steps-item-tail::after {
+  background-color: #1f36c7 !important;
 }
 
 .create-qc-menu {
-  background-color: #1F36C7 !important;
+  background-color: #1f36c7 !important;
   color: #ffffff;
   fill: white !important;
-
 }
 
 .product-form-input .ant-picker-suffix {
@@ -494,7 +531,7 @@ input:focus {
 } */
 
 .not-active {
-  background-color: #EEF2F6 !important;
+  background-color: #eef2f6 !important;
   /* color: black; */
   /* fill: black !important; */
 }
@@ -512,7 +549,7 @@ input:focus {
 }
 
 .table-row-dark {
-  background-color: #F8FAFC;
+  background-color: #f8fafc;
   /* color: white;  */
   color: rgb(191, 191, 191) !important;
   border-top: none !important;
@@ -547,7 +584,7 @@ input:focus {
   text-align: left !important;
 }
 
-.highlight-bottom-border>td {
+.highlight-bottom-border > td {
   border-bottom: none !important;
 }
 
@@ -559,14 +596,14 @@ input:focus {
   padding: 5px !important;
 }
 
-.highlight-top-border>td {
+.highlight-top-border > td {
   border-top: none !important;
-  border-bottom: none !important
+  border-bottom: none !important;
 }
 
 .ant-table-thead .ant-table-cell {
   background-color: #ffffff !important;
-  border-bottom: 2px solid #EEF2F6 !important;
+  border-bottom: 2px solid #eef2f6 !important;
   color: #000000 !important;
   font-size: 1rem !important;
   /* border: none !important; */
@@ -574,31 +611,29 @@ input:focus {
 
 .compare-table .ant-table-cell {
   padding: 20px 20px !important;
-
 }
 
 .compare-table-small .ant-table-cell {
   padding: 10px 0px !important;
-
 }
 
 .verdict_column_pass {
-  background-color: #DFF6DD !important;
+  background-color: #dff6dd !important;
 }
 
-.ant-table-tbody>tr>.antd-padding-zero.ant-table-cell {
+.ant-table-tbody > tr > .antd-padding-zero.ant-table-cell {
   padding: 0px !important;
 }
 
-
-.user-select>div {}
+.user-select > div {
+}
 
 .ant-table-thead {
   padding: 20px !important;
 }
 
 .verdict_column_fail {
-  background-color: #FDE2E1 !important;
+  background-color: #fde2e1 !important;
 }
 
 .ant-table-cell {
@@ -631,7 +666,7 @@ input:focus {
   padding: 4px !important;
   font-size: 10px !important;
   border-color: hsl(0, 0%, 80%) !important;
-  box-shadow: 0 0 0 1px #9AA4B2 !important;
+  box-shadow: 0 0 0 1px #9aa4b2 !important;
   border-radius: 10px !important;
 }
 
@@ -643,8 +678,7 @@ input:focus {
   display: none !important;
 } */
 
-
-.css-1nmdiq5-menu{
+.css-1nmdiq5-menu {
   z-index: 100 !important;
 }
 
@@ -652,12 +686,13 @@ input:focus {
   padding: 5px !important;
   font-size: 1rem !important;
   border-color: hsl(0, 0%, 80%) !important;
-  box-shadow: 0 0 0 1px #9AA4B2 !important;
+  box-shadow: 0 0 0 1px #9aa4b2 !important;
   border-radius: 10px !important;
-  background-color: #000E38 !important;
+  background-color: #000e38 !important;
 }
 
-:where(.css-dev-only-do-not-override-3rel02).ant-table-wrapper .ant-table-container::after {
+:where(.css-dev-only-do-not-override-3rel02).ant-table-wrapper
+  .ant-table-container::after {
   display: none !important;
 }
 
@@ -668,8 +703,6 @@ input:focus {
 .ant-table-content::-webkit-scrollbar {
   display: none !important;
 }
-
-
 
 .user-select .css-13cymwt-control {
   padding: 0 !important;
@@ -683,30 +716,30 @@ input:focus {
   padding: 2px !important;
   font-size: 1rem !important;
   border-color: hsl(0, 0%, 80%) !important;
-  box-shadow: 0 0 0 1px #9AA4B2 !important;
+  box-shadow: 0 0 0 1px #9aa4b2 !important;
   border-radius: 10px !important;
   border: none !important;
-  background-color: #000E38 !important;
+  background-color: #000e38 !important;
   color: white !important;
 }
 
 .css-1086bdv-MuiPaper-root-MuiAccordion-root {
-  border: 2px solid #CDD5DF !important;
+  border: 2px solid #cdd5df !important;
   border-radius: 10px !important;
   box-shadow: none !important;
 }
 
 .css-1f773le-MuiButtonBase-root-MuiAccordionSummary-root {
   padding: 10px !important;
-  background: #F8FAFC !important;
+  background: #f8fafc !important;
   border-radius: 10px !important;
 }
 
 .value-table-row-light {
-  background-color: #090E14;
+  background-color: #090e14;
   /* color: white; */
   font-size: 1rem;
-  border-bottom: 1px solid #2F3339;
+  border-bottom: 1px solid #2f3339;
   color: rgb(191, 191, 191) !important;
   font-size: 1rem;
   font-weight: 400;
@@ -720,8 +753,8 @@ input:focus {
 
 .ant-modal-root .ant-modal-mask {
   background-color: rgba(0, 0, 0, 0.3); /* Adjust as needed */
-  backdrop-filter: blur(10px);           /* Apply blur */
-  -webkit-backdrop-filter: blur(10px);   /* For Safari support */
+  backdrop-filter: blur(10px); /* Apply blur */
+  -webkit-backdrop-filter: blur(10px); /* For Safari support */
 }
 
 .notification-antd-modal .ant-modal-content {
@@ -735,7 +768,7 @@ input:focus {
 }
 
 .shadow-table {
-  box-shadow: 0 8px 24px rgba(128, 128, 128, .15) !important;
+  box-shadow: 0 8px 24px rgba(128, 128, 128, 0.15) !important;
 }
 
 ::-webkit-scrollbar {
@@ -801,17 +834,14 @@ input:focus {
   display: none !important;
 } */
 
-
 .recharts-legend-item-text {
   color: black !important;
 }
 
 .ant-picker-input > input {
-  background-color: #000E38 !important;
-  font-size: 0.90rem !important;
+  background-color: #000e38 !important;
+  font-size: 0.9rem !important;
 }
-
-
 
 .ant-tabs-nav-list {
   width: 100% !important;
@@ -829,30 +859,97 @@ input:focus {
   color: #1F36C7 !important;
 } */
 
-.ant-tabs-tab-active .active-tab{
-  color: #1F36C7 !important;
+.ant-tabs-tab-active .active-tab {
+  color: #1f36c7 !important;
 }
-
 
 /* current css */
 
-ant-picker ant-picker-range ant-picker-outlined relative css-var-root ant-picker-css-var{
-  background-color: #000E38 !important;
+ant-picker
+  ant-picker-range
+  ant-picker-outlined
+  relative
+  css-var-root
+  ant-picker-css-var {
+  background-color: #000e38 !important;
 }
 
-.css-1dimb5e-singleValue{
+.css-1dimb5e-singleValue {
   color: white !important;
 }
 
-.css-1jqq78o-placeholder{
+.css-1jqq78o-placeholder {
   color: white !important;
 }
 
-.ant-picker .ant-picker-input >input {
+.ant-picker .ant-picker-input > input {
   color: white !important;
 }
 
+.custom-kpi-table .ant-table {
+  background: transparent !important;
+  color: white !important;
+}
 
+.custom-kpi-table .ant-table-thead > tr > th {
+  background: #000c30 !important;
+  color: #d9e1ff !important;
+  font-size: 0.65rem;
+  font-weight: 600;
+  border: none !important;
+  text-align: center;
+  padding: 4px !important;
+}
 
+.custom-kpi-table .ant-table-tbody > tr > td {
+  background: #000c30 !important;
+  border: none !important;
+  padding: 12px;
+}
 
+.custom-kpi-table .ant-table-tbody > tr:nth-child(odd) td {
+  background: #001040 !important;
+}
 
+.custom-kpi-table .ant-table-cell {
+  text-align: center;
+}
+
+.ant-picker .ant-picker-input {
+  margin-left: 10px !important;
+}
+
+/* Scales text based on screen width */
+.text-responsive {
+  font-size: clamp(0.95rem, 0.9vw, 1.4rem);
+}
+
+/* Scales padding based on screen width */
+.p-responsive {
+  padding: clamp(4px, 0.6vw, 20px);
+}
+
+/* Scales gap across layouts */
+.gap-responsive {
+  gap: clamp(4px, 0.8vw, 32px);
+}
+
+.custom-kpi-table .ant-table-cell {
+  font-size: clamp(0.65rem, 0.8vw, 1.2rem) !important;
+}
+
+.custom-kpi-table .ant-table-thead > tr > th,
+.custom-kpi-table .ant-table-tbody > tr > td {
+  padding: clamp(4px, 0.7vw, 16px) !important;
+}
+
+@media (max-width: 1366px) {
+  .custom-kpi-table .ant-table-body {
+    overflow-x: scroll !important;
+  }
+}
+
+.header-title {
+  font-size: 1.6rem !important;
+  font-weight: 600 !important;
+}
