@@ -398,7 +398,7 @@ function Home() {
       </div>
 
       {/* ========= TWO TABLES (SIDE-BY-SIDE) ========= */}
-      <div className="w-full mt-6 grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="w-full mt-6 grid grid-cols-1 xl:grid-cols-2 gap-2">
         <div className="flex flex-col gap-[2px] w-full rounded-xl">
           <div className="text-gray-200 bg-secondary py-2 text-center rounded-[10px] text-lg font-semibold mb-2">
             Non - Sachet CMs (WTD)

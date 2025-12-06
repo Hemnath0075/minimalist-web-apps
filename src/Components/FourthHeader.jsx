@@ -132,6 +132,7 @@ function FourthHeader({ selectedDate, onDateChange }) {
               fontWeight: "400",
               textAlign: "center",
               borderRadius: "10px",
+              borderColor: "#083283"
             }}
             format="DD-MM-YYYY"
             onChange={handleRangeChange}

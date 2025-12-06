@@ -665,7 +665,7 @@ input:focus {
 .css-13cymwt-control {
   padding: 4px !important;
   font-size: 10px !important;
-  border-color: hsl(0, 0%, 80%) !important;
+  border-color: #083283 !important;
   box-shadow: 0 0 0 1px #9aa4b2 !important;
   border-radius: 10px !important;
 }
@@ -685,7 +685,7 @@ input:focus {
 .css-18gmn41-control {
   padding: 5px !important;
   font-size: 1rem !important;
-  border-color: hsl(0, 0%, 80%) !important;
+  border-color: #083283 !important;
   box-shadow: 0 0 0 1px #9aa4b2 !important;
   border-radius: 10px !important;
   background-color: #000e38 !important;
@@ -712,10 +712,10 @@ input:focus {
   padding: 0 !important;
 }
 
-.css-1yt2dk6-control {
+.css-1yt2dk6-control,.css-1kcg47m-control{
   padding: 2px !important;
   font-size: 1rem !important;
-  border-color: hsl(0, 0%, 80%) !important;
+  border-color: #083283 !important;
   box-shadow: 0 0 0 1px #9aa4b2 !important;
   border-radius: 10px !important;
   border: none !important;
