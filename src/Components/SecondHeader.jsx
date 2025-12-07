@@ -100,20 +100,14 @@ function SecondHeader({ selectedDate, onDateChange }) {
         />
 
         <div className="header-divider w-[2px] h-[40px] bg-white"></div>
-        <p className="header-title text-white font-[600]">
+        <p className="text-xxl-responsive text-white font-[600]">
           CM Control Tower | Beauty and Wellbeing | HUL
         </p>
       </div>
       <div className="flex flex-row justify-center items-center text-white gap-3">
         <div className="flex flex-col mt-2 basis-[35%]">
           <Select
-            // key={index}
-            // components={{
-            //   Option: InputOption,
-            //   MultiValue: ({ data, ...props }) => (
-            //     <MultiValue item={item} {...props} />
-            //   ),
-            // }}
+            className="text-md-responsive"
             closeMenuOnSelect={false}
             hideSelectedOptions={false}
             // placeholder={item}

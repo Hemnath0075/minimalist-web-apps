@@ -152,7 +152,7 @@ function Third() {
             className="basis-[33%] text-white flex flex-col justify-center items-center gap-[4px]"
           >
             {/* Header */}
-            <div className="bg-secondary w-full rounded-[10px] py-2 px-2 text-center text-[1.25rem] font-[600]" style={{
+            <div className="bg-secondary w-full rounded-[10px] py-2 px-2 text-center text-xl-responsive font-[600]" style={{
                       backgroundColor: item.primary,
                     }}>
               Line Name: {item.line}
@@ -182,8 +182,8 @@ function Third() {
                       boxShadow: `4px 4px 20px 0px ${item.shadow}`,
                     }}
                   >
-                    <p className="text-[1.05rem] font-[600]">Tubes Analysed</p>
-                    <p className="font-[600] text-[1.20rem]">
+                    <p className="text-lg-responsive-cross font-[600]">Tubes Analysed</p>
+                    <p className="font-[600] text-xl-responsive">
                       {item.stats.tubesAnalyzed.toLocaleString()}
                     </p>
                   </div>
@@ -196,8 +196,8 @@ function Third() {
                       boxShadow: `4px 4px 20px 0px ${item.shadow}`,
                     }}
                   >
-                    <p className="text-[1.05rem] font-[600]">Tubes Rejected</p>
-                    <p className="font-[600] text-[1.20rem]">{item.stats.tubesRejected}</p>
+                    <p className="text-lg-responsive-cross font-[600]">Tubes Rejected</p>
+                    <p className="font-[600] text-xl-responsive">{item.stats.tubesRejected}</p>
                   </div>
 
                   {/* Reject Ratio */}
@@ -208,39 +208,39 @@ function Third() {
                       boxShadow: `4px 4px 20px 0px ${item.shadow}`,
                     }}
                   >
-                    <p className="text-[1.05rem] font-[600]">Reject Ratio</p>
-                    <p className="font-[600] text-[1.20rem]">{item.stats.rejectionRatio}</p>
+                    <p className="text-lg-responsive-cross font-[600]">Reject Ratio</p>
+                    <p className="font-[600] text-xl-responsive">{item.stats.rejectionRatio}</p>
                   </div>
                 </div>
 
                 {/* Details Section */}
                 <div className="flex flex-col mt-3 gap-2 justify-start w-full items-center">
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="text-[1.05rem] font-[600]">Recipe Name</p>
-                    <p className="text-[1.05rem] font-[500]">
+                    <p className="text-md-responsive-cross font-[600]">Recipe Name</p>
+                    <p className="text-md-responsive-cross font-[500]">
                       {item.details.recipeName}
                     </p>
                   </div>
 
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="text-[1.05rem] font-[600]">Location Name</p>
-                    <p className="text-[1.05rem] font-[500]">
+                    <p className="text-md-responsive-cross font-[600]">Location Name</p>
+                    <p className="text-md-responsive-cross font-[500]">
                       {item.details.locationName}
                     </p>
                   </div>
 
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="text-[1.05rem] font-[600]">
+                    <p className="text-md-responsive-cross font-[600]">
                       Last Recipe Updated
                     </p>
-                    <p className="text-[1.05rem] font-[500]">
+                    <p className="text-md-responsive-cross font-[500]">
                       {item.details.lastRecipeUpdated}
                     </p>
                   </div>
 
                   <div className="flex flex-row w-full justify-between items-center">
-                    <p className="text-[1.05rem] font-[600]">Machine Name</p>
-                    <p className="text-[1.05rem] font-[500]">
+                    <p className="text-md-responsive-cross font-[600]">Machine Name</p>
+                    <p className="text-md-responsive-cross font-[500]">
                       {item.details.machineName}
                     </p>
                   </div>

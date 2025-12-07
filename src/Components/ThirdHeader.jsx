@@ -99,7 +99,7 @@ function ThirdHeader({ selectedDate, onDateChange }) {
           className="header-logo w-[40px] h-[40px]"
         />
         <div className="header-divider w-[2px] h-[40px] bg-white"></div>
-        <p className="header-title text-white font-[600]">
+        <p className="text-xxl-responsive text-white font-[600]">
           Real-Time Cross-Packing Detection
         </p>
       </div>

@@ -78,7 +78,7 @@ const stackedCell = (obj) => (
 );
 
 const crqsCell = (obj) => (
-  <div className="flex flex-col leading-tight text-sm-responsive font-[500]">
+  <div className="flex flex-col leading-tight text-sm-responsive-responsive font-[500]">
     <span className="text-white">{obj.top}</span>
     <span className="text-white">{obj.bottom}</span>
   </div>
@@ -213,7 +213,7 @@ function Home() {
       {/* ========= TOP KPI ROWS ========= */}
       <div className="w-full rounded-[10px] bg-secondary p-4 mt-4 flex flex-col gap-4">
         {/* KPI CARD */}
-        <div className="text-white flex-row w-full justify-center items-center text-center font-[600] text-lg-responsive">
+        <div className="text-white flex-row w-full justify-center items-center text-center font-[600] text-xl-responsive">
           KPIs (YTD)
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-responsive">
@@ -228,8 +228,12 @@ function Home() {
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
-            <div className="text-gray-300 font-[600] text-responsive">MOQ Concerns</div>
-            <div className="text-white text-xl-responsive font-semibold">20</div>
+            <div className="text-gray-300 font-[600] text-responsive">
+              MOQ Concerns
+            </div>
+            <div className="text-white text-xl-responsive font-semibold">
+              20
+            </div>
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
@@ -243,19 +247,27 @@ function Home() {
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
             <div className="text-gray-300 font-[600] text-responsive">DPMU</div>
-            <div className="text-green font-semibold text-xl-responsive">6,000 / 8000</div>
+            <div className="text-green font-semibold text-xl-responsive">
+              6,000 / 8000
+            </div>
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
             <div className="text-gray-300 font-[600] text-responsive">
               OR + Prod vs Booking Gap
             </div>
-            <div className="text-red text-xl-responsive font-semibold">64% / 80%</div>
+            <div className="text-red text-xl-responsive font-semibold">
+              64% / 80%
+            </div>
           </div>
 
-           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
-            <div className="text-gray-300 font-[600] text-responsive">No. of launches</div>
-            <div className="text-white text-xl-responsive font-semibold">154</div>
+          <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
+            <div className="text-gray-300 font-[600] text-responsive">
+              No. of launches
+            </div>
+            <div className="text-white text-xl-responsive font-semibold">
+              154
+            </div>
           </div>
         </div>
       </div>
@@ -263,18 +275,17 @@ function Home() {
       {/* ========= COMPLIANCE (3 blocks) ========= */}
       {/* ========= COMPLIANCE (YTD) SECTION ========= */}
       <div className="flex flex-row justify-between items-center gap-2 w-full h-[24vh]">
-        <div className="w-full h-full max-w-[1800px] bg-containergreen px-4 py-2 rounded-[10px] mt-6">
-          <div className="text-gray-200 text-lg-responsive font-semibold mb-4 text-center">
+        <div className="equal-block w-full max-w-[1800px] bg-containergreen px-4 py-2 rounded-[10px] mt-6">
+          <div className="text-gray-200 text-xl-responsive font-semibold mb-2 text-center">
             Compliance (YTD)
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* PLAN */}
             <div className="bg-[#08252B] shadow-[4px_4px_20px_0px_#134C58] flex flex-col w-full justify-between items-center rounded-xl py-2 px-4 ">
-              <div className="text-gray-300 text-lg font-semibold mb-3">
+              <div className="text-gray-300 text-lg-responsive-compliance font-semibold mb-3-responsive-responsive">
                 Plan
               </div>
-              <div className="flex flex-row text-white text-sm justify-between w-full items-center">
+              <div className="flex flex-row text-white text-sm-responsive justify-between w-full items-center">
                 <p> No. of Sites</p>
                 <p>(Overall - 70%)</p>
               </div>
@@ -282,33 +293,33 @@ function Home() {
               <div className="flex flex-row gap-2 w-full items-center justify-between text-white font-semibold">
                 {/* >90% */}
                 <div className="flex flex-1 flex-col gap-1 justify-center items-center">
-                  <div className="flex-1 w-full mx-1 bg-cardgreen rounded-lg text-center py-2">
-                    <div className="text-2xl">5</div>
+                  <div className="flex-1 w-full mx-1 bg-cardgreen rounded-lg text-center p-2-responsive">
+                    <div className="text-xxl-responsive">5</div>
                   </div>
-                  <div className="text-sm">{">90%"}</div>
+                  <div className="text-sm-responsive">{">90%"}</div>
                 </div>
 
                 <div className="flex flex-1 flex-col gap-1 justify-center items-center">
-                  <div className="flex-1 w-full mx-1 bg-cardorange rounded-lg text-center py-2">
-                    <div className="text-2xl">4</div>
+                  <div className="flex-1 w-full mx-1 bg-cardorange rounded-lg text-center p-2-responsive">
+                    <div className="text-xxl-responsive">4</div>
                   </div>
-                  <div className="text-sm">{"80-90%"}</div>
+                  <div className="text-sm-responsive">{"80-90%"}</div>
                 </div>
                 <div className="flex flex-1 flex-col gap-1 justify-center items-center">
-                  <div className="flex-1 w-full mx-1 bg-cardred rounded-lg text-center py-2">
-                    <div className="text-2xl">3</div>
+                  <div className="flex-1 w-full mx-1 bg-cardred rounded-lg text-center p-2-responsive">
+                    <div className="text-xxl-responsive">3</div>
                   </div>
-                  <div className="text-sm">{"<80%"}</div>
+                  <div className="text-sm-responsive">{"<80%"}</div>
                 </div>
               </div>
             </div>
 
             {/* QUALITY */}
             <div className="bg-[#08252B] shadow-[4px_4px_20px_0px_#134C58] flex flex-col w-full justify-between items-center rounded-xl py-2 px-4">
-              <div className="text-gray-300 text-lg font-semibold mb-3">
+              <div className="text-gray-300 text-lg-responsive-compliance font-semibold mb-3-responsive">
                 Priority
               </div>
-              <div className="flex flex-row text-white text-sm justify-between w-full items-center">
+              <div className="flex flex-row text-white text-sm-responsive justify-between w-full items-center">
                 <p> No. of Sites</p>
                 <p>(Overall - 70%)</p>
               </div>
@@ -316,33 +327,33 @@ function Home() {
               <div className="flex flex-row gap-2 w-full items-center justify-between text-white font-semibold">
                 {/* >90% */}
                 <div className="flex flex-1 flex-col gap-1 justify-center items-center">
-                  <div className="flex-1 w-full mx-1 bg-cardgreen rounded-lg text-center py-2">
-                    <div className="text-2xl">5</div>
+                  <div className="flex-1 w-full mx-1 bg-cardgreen rounded-lg text-center p-2-responsive">
+                    <div className="text-xxl-responsive">5</div>
                   </div>
-                  <div className="text-sm">{">90%"}</div>
+                  <div className="text-sm-responsive">{">90%"}</div>
                 </div>
 
                 <div className="flex flex-1 flex-col gap-1 justify-center items-center">
-                  <div className="flex-1 w-full mx-1 bg-cardorange rounded-lg text-center py-2">
-                    <div className="text-2xl">4</div>
+                  <div className="flex-1 w-full mx-1 bg-cardorange rounded-lg text-center p-2-responsive">
+                    <div className="text-xxl-responsive">4</div>
                   </div>
-                  <div className="text-sm">{"80-90%"}</div>
+                  <div className="text-sm-responsive">{"80-90%"}</div>
                 </div>
                 <div className="flex flex-1 flex-col gap-1 justify-center items-center">
-                  <div className="flex-1 w-full mx-1 bg-cardred rounded-lg text-center py-2">
-                    <div className="text-2xl">3</div>
+                  <div className="flex-1 w-full mx-1 bg-cardred rounded-lg text-center p-2-responsive">
+                    <div className="text-xxl-responsive">3</div>
                   </div>
-                  <div className="text-sm">{"<80%"}</div>
+                  <div className="text-sm-responsive">{"<80%"}</div>
                 </div>
               </div>
             </div>
 
             {/* PRIORITY PACK */}
             <div className="bg-[#08252B] shadow-[4px_4px_20px_0px_#134C58] flex flex-col w-full justify-between items-center rounded-xl py-2 px-4 ">
-              <div className="text-gray-300 text-lg font-semibold mb-3">
+              <div className="text-gray-300 text-lg-responsive-compliance font-semibold mb-3-responsive">
                 Quality
               </div>
-              <div className="flex flex-row text-white text-sm justify-between w-full items-center">
+              <div className="flex flex-row text-white text-sm-responsive justify-between w-full items-center">
                 <p> No. of Sites</p>
                 <p>(Overall - 70%)</p>
               </div>
@@ -350,23 +361,23 @@ function Home() {
               <div className="flex flex-row gap-2 w-full items-center justify-between text-white font-semibold">
                 {/* >90% */}
                 <div className="flex flex-1 flex-col gap-1 justify-center items-center">
-                  <div className="flex-1 w-full mx-1 bg-cardgreen rounded-lg text-center py-2">
-                    <div className="text-2xl">5</div>
+                  <div className="flex-1 w-full mx-1 bg-cardgreen rounded-lg text-center p-2-responsive">
+                    <div className="text-xxl-responsive">5</div>
                   </div>
-                  <div className="text-sm">{">90%"}</div>
+                  <div className="text-sm-responsive">{">90%"}</div>
                 </div>
 
                 <div className="flex flex-1 flex-col gap-1 justify-center items-center">
-                  <div className="flex-1 w-full mx-1 bg-cardorange rounded-lg text-center py-2">
-                    <div className="text-2xl">4</div>
+                  <div className="flex-1 w-full mx-1 bg-cardorange rounded-lg text-center p-2-responsive">
+                    <div className="text-xxl-responsive">4</div>
                   </div>
-                  <div className="text-sm">{"80-90%"}</div>
+                  <div className="text-sm-responsive">{"80-90%"}</div>
                 </div>
                 <div className="flex flex-1 flex-col gap-1 justify-center items-center">
-                  <div className="flex-1 w-full mx-1 bg-cardred rounded-lg text-center py-2">
-                    <div className="text-2xl">3</div>
+                  <div className="flex-1 w-full mx-1 bg-cardred rounded-lg text-center p-2-responsive">
+                    <div className="text-xxl-responsive">3</div>
                   </div>
-                  <div className="text-sm">{"<80%"}</div>
+                  <div className="text-sm-responsive">{"<80%"}</div>
                 </div>
               </div>
             </div>
@@ -374,8 +385,8 @@ function Home() {
         </div>
 
         {/* ========= DEEP DIVES ========= */}
-        <div className="w-full h-full max-w-[1800px] bg-containergreen px-4 py-2 rounded-[10px] mt-6">
-          <div className="text-gray-200 text-lg-responsive font-semibold mb-4 text-center">
+        <div className="w-full equal-block max-w-[1800px] bg-containergreen px-4 py-2 rounded-[10px] mt-6">
+          <div className="text-gray-200 text-xl-responsive font-semibold mb-2 text-center">
             Deep Dives
           </div>
 
@@ -384,16 +395,17 @@ function Home() {
             {[1, 2, 3, 4].map((n, index) => (
               <div
                 key={n}
-                className="bg-[#08252B] shadow-[4px_4px_20px_0px_#134C58] py-2 px-2 rounded-xl flex flex-col items-center justify-between text-gray-300 text-sm"
+                className="bg-[#08252B] py-2-responsive shadow-[4px_4px_20px_0px_#134C58] py-2 px-2 rounded-xl flex flex-col items-center justify-between text-gray-300 text-sm-responsive"
               >
-                <div className="w-[120px] h-[110px] flex items-center justify-center">
+                <div className="deep-dive-img ">
                   <img
                     src={ImageItems[index]}
                     alt=""
-                    className="w-full h-full object-contain"
+                    className="deep-dive-img-inner"
                   />
                 </div>
-                <p className="text-[1rem] font-[600]">
+
+                <p className="text-md-responsive font-[600] mt-3-responsive">
                   Minimalist | Nano | Lotus
                 </p>
               </div>

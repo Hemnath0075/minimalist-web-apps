@@ -109,44 +109,62 @@ function Fourth() {
         {/* KPI CARD */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4">
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">Batch Name</div>
-            <div className="text-green text-xl font-semibold">
+            <div className="text-xl-responsive text-gray-300 font-[600]">
+              Batch Name
+            </div>
+            <div className="text-green text-xl-responsive font-semibold">
               SPF 50 Sunscreen
             </div>
           </div>
 
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">BCT</div>
-            <div className="text-red text-xl font-semibold">6 Hours</div>
+            <div className="text-xl-responsive text-gray-300 font-[600]">
+              BCT
+            </div>
+            <div className="text-red text-xl-responsive font-semibold">
+              6 Hours
+            </div>
           </div>
 
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">Yield %</div>
-            <div className="text-red text-xl font-semibold">95%</div>
+            <div className="text-xl-responsive text-gray-300 font-[600]">
+              Yield %
+            </div>
+            <div className="text-red text-xl-responsive font-semibold">95%</div>
           </div>
 
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">Idle time</div>
-            <div className="text-green text-xl font-semibold">1 Hour</div>
+            <div className="text-xl-responsive text-gray-300 font-[600]">
+              Idle time
+            </div>
+            <div className="text-green text-xl-responsive font-semibold">
+              1 Hour
+            </div>
           </div>
 
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">
+            <div className="text-xl-responsive text-gray-300 font-[600]">
               Transfer time
             </div>
-            <div className="text-green text-xl font-semibold">48 min</div>
+            <div className="text-green text-xl-responsive font-semibold">
+              48 min
+            </div>
           </div>
 
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">Mixing time</div>
-            <div className="text-green text-xl font-semibold">5 Hours</div>
+            <div className="text-xl-responsive text-gray-300 font-[600]">
+              Mixing time
+            </div>
+            <div className="text-green text-xl-responsive font-semibold">
+              5 Hours
+            </div>
           </div>
         </div>
       </div>
       <div className="mt-1 text-white flex flex-col justify-center items-center w-full">
         <div className="w-full bg-secondary flex flex-row justify-between items-center mt-4">
           <div className="basis-[13%] w-full flex flex-row justify-center items-center">
-            <p className="text-[1.25rem] font-[600]">Mixer Temperature</p>
+            <p className="text-xl-responsive text-wrap font-[600]">Mixer Temperature</p>
           </div>
 
           <div className="basis-[90%]">
@@ -157,7 +175,7 @@ function Fourth() {
       <div className="mt-1 text-white flex flex-col justify-center items-center w-full">
         <div className="w-full bg-secondary flex flex-row justify-between items-center mt-4">
           <div className="basis-[13%] w-full flex flex-row justify-center items-center">
-            <p className="text-[1.25rem] font-[600]">Stirrer RPM</p>
+            <p className="text-xl-responsive font-[600]">Stirrer RPM</p>
           </div>
 
           <div className="basis-[90%]">
@@ -168,7 +186,7 @@ function Fourth() {
       <div className="mt-1 text-white flex flex-col justify-center items-center w-full">
         <div className="w-full bg-secondary flex flex-row justify-between items-center mt-4">
           <div className="basis-[13%] w-full flex flex-row justify-center items-center">
-            <p className="text-[1.25rem] font-[600]">Batch Viscocity</p>
+            <p className="text-xl-responsive font-[600]">Batch Viscocity</p>
           </div>
 
           <div className="basis-[90%]">
@@ -229,9 +247,9 @@ const ProcessChart = ({ title, legend }) => {
           <ReferenceArea x1={4} x2={6} fill="url(#step3)" />
 
           <CartesianGrid stroke="rgba(255,255,255,0.12)" />
-          <XAxis dataKey="time" tick={{ fill: "#C7D3EA" }} stroke="#C7D3EA" />
+          <XAxis dataKey="time" tick={{ className: "chart-tick" }} stroke="#C7D3EA" />
           <YAxis
-            tick={{ fill: "#C7D3EA" }}
+            tick={{ className: "chart-tick" }}
             stroke="#C7D3EA"
             label={{
               value: legend,
@@ -242,6 +260,7 @@ const ProcessChart = ({ title, legend }) => {
               dx: 0,
               dy: 0,
               textAnchor: "middle",
+              className: "chart-axis-label",
               fontWeight: 600,
             }}
           />
@@ -317,10 +336,10 @@ const ProcessChart = ({ title, legend }) => {
           }}
         >
           <div
+            className="text-xl-responsive"
             style={{
               color: "white",
               fontWeight: 700,
-              fontSize: 18,
               textShadow: "0 1px 6px rgba(0,0,0,0.6)",
             }}
           >
@@ -339,10 +358,11 @@ const ProcessChart = ({ title, legend }) => {
           }}
         >
           <div
+            className="text-xl-responsive"
             style={{
               color: "white",
               fontWeight: 700,
-              fontSize: 18,
+
               textShadow: "0 1px 6px rgba(0,0,0,0.6)",
             }}
           >
@@ -361,10 +381,10 @@ const ProcessChart = ({ title, legend }) => {
           }}
         >
           <div
+            className="text-xl-responsive"
             style={{
               color: "white",
               fontWeight: 700,
-              fontSize: 18,
               textShadow: "0 1px 6px rgba(0,0,0,0.6)",
             }}
           >

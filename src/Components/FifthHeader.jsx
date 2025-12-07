@@ -65,7 +65,7 @@ const MultiValue = ({ getValue, index, item, ...props }) => {
   return !index && `${item} (${getValue().length})`;
 };
 
-function FourthHeader({ selectedDate, onDateChange }) {
+function FifthHeader({ selectedDate, onDateChange }) {
   const {
     register,
     handleSubmit,
@@ -101,12 +101,89 @@ function FourthHeader({ selectedDate, onDateChange }) {
 
         <div className="header-divider w-[2px] h-[40px] bg-white"></div>
         <p className="text-xxl-responsive text-white font-[600]">
-          Batch Analytics
+          Minimalist Control Tower
         </p>
       </div>
       <div className="flex flex-row justify-center items-center text-white gap-3">
-        <div className="basis-[100%]">
-          <DatePicker
+        <div className="flex flex-col mt-2 basis-[35%]">
+          <Select
+            className="text-md-responsive"
+            closeMenuOnSelect={false}
+            hideSelectedOptions={false}
+            // placeholder={item}
+            styles={{
+              control: (baseStyles, state) => ({
+                ...baseStyles,
+                backgroundColor: "#ffffff",
+                fontSize: "1.15rem",
+                padding: "1.5% 1.5% ",
+                color: "#000000",
+                borderColor: "#CDD5DF",
+                flexBasis: "20%",
+              }),
+              option: (styles, { isDisabled, isFocused }) => {
+                return {
+                  ...styles,
+                  backgroundColor: isFocused ? "#ffffff" : "transparent",
+                  color: "black",
+                  cursor: isDisabled ? "not-allowed" : "default",
+                };
+              },
+            }}
+            options={[
+              { label: "Shift A", value: "Shift A" },
+              { label: "Shift B", value: "Shift B" },
+              { label: "Shift C", value: "Shift C" },
+            ]}
+            // value={filteredParameters["item"]}
+            // onChange={(selectedOption) =>
+            //   handleSelectChange(selectedOption, item)
+            // }
+          />
+        </div>
+        <div className="flex flex-col mt-2 basis-[35%]">
+          <Select
+            // key={index}
+            // components={{
+            //   Option: InputOption,
+            //   MultiValue: ({ data, ...props }) => (
+            //     <MultiValue item={item} {...props} />
+            //   ),
+            // }}
+            closeMenuOnSelect={false}
+            hideSelectedOptions={false}
+            // placeholder={item}
+            styles={{
+              control: (baseStyles, state) => ({
+                ...baseStyles,
+                backgroundColor: "#ffffff",
+                fontSize: "1.15rem",
+                padding: "1.5% 1.5% ",
+                color: "#000000",
+                borderColor: "#CDD5DF",
+                flexBasis: "20%",
+              }),
+              option: (styles, { isDisabled, isFocused }) => {
+                return {
+                  ...styles,
+                  backgroundColor: isFocused ? "#ffffff" : "transparent",
+                  color: "black",
+                  cursor: isDisabled ? "not-allowed" : "default",
+                };
+              },
+            }}
+            options={[
+              { label: "Lotus", value: "lotus" },
+              { label: "Lotus", value: "lotus" },
+            ]}
+            // value={filteredParameters["item"]}
+            // onChange={(selectedOption) =>
+            //   handleSelectChange(selectedOption, item)
+            // }
+          />
+        </div>
+        <div className="basis-[60%]">
+          <RangePicker
             defaultValue={
               dateRange.length > 0
                 ? [
@@ -125,7 +202,7 @@ function FourthHeader({ selectedDate, onDateChange }) {
             }
             suffixIcon={<div></div>}
             style={{
-              padding: "4% 2%",
+              padding: "3% 2%",
               backgroundColor: "#000E38",
               marginTop: "8px",
               fontSize: "2rem",
@@ -140,7 +217,7 @@ function FourthHeader({ selectedDate, onDateChange }) {
           <CiCalendar
             color="#ffffff"
             fontSize={"2.5vmin"}
-            className="absolute right-[2.5%] top-[25px]"
+            className="absolute right-[2.5%] top-[30px]"
           />
         </div>
       </div>
@@ -148,4 +225,4 @@ function FourthHeader({ selectedDate, onDateChange }) {
   );
 }
 
-export default FourthHeader;
+export default FifthHeader;

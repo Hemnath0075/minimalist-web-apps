@@ -27,6 +27,15 @@ module.exports = {
         cardgreen:{
           DEFAULT: '#068026'
         },
+        statusGreen:{
+          DEFAULT: '#004B23'
+        },
+        statusYellow:{
+          DEFAULT: '#C86400'
+        },
+        statusRed:{
+          DEFAULT: '#6A040F'
+        },
         cardorange:{
           DEFAULT: '#C86400'
         },

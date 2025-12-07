@@ -100,7 +100,7 @@ function Header({ selectedDate, onDateChange }) {
         />
 
         <div className="header-divider w-[2px] h-[40px] bg-white"></div>
-        <p className="header-title text-white font-[600]">
+        <p className="text-xxl-responsive text-white font-[600]">
           CM Control Tower | Beauty and Wellbeing | HUL
         </p>
       </div>

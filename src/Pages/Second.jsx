@@ -243,28 +243,28 @@ function Second() {
       <div className="w-full rounded-[10px] bg-secondary p-4 mt-4 flex flex-col gap-4">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-6 gap-4">
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl py-8 px-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">
+            <div className="text-xl-responsive-responsive text-gray-300 font-[600]">
               Product/Coding Images
             </div>
           </div>
 
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl py-8 px-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">Production</div>
+            <div className="text-xl-responsive-responsive text-gray-300 font-[600]">Production</div>
           </div>
 
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl py-8 px-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">Prod HS (%)</div>
+            <div className="text-xl-responsive-responsive text-gray-300 font-[600]">Prod HS (%)</div>
           </div>
 
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl py-8 px-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">EGA (%)</div>
+            <div className="text-xl-responsive-responsive text-gray-300 font-[600]">EGA (%)</div>
           </div>
 
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl py-8 px-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">CRQS / T5Z</div>
+            <div className="text-xl-responsive-responsive text-gray-300 font-[600]">CRQS / T5Z</div>
           </div>
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl py-8 px-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">RPM (%)</div>
+            <div className="text-xl-responsive-responsive text-gray-300 font-[600]">RPM (%)</div>
           </div>
         </div>
       </div>
@@ -295,7 +295,7 @@ const UnitBlock = ({ unit }) => (
     className="rounded-[10px] px-4 py-3 w-full"
     style={{ backgroundColor: unit.secondary }}
   >
-    <div className="text-gray-200 text-[1.25rem] font-semibold mb-4 text-center">
+    <div className="text-gray-200 text-xxl-responsive font-semibold mb-4 text-center">
       {unit.name}
     </div>
 
@@ -318,19 +318,19 @@ const UnitBlock = ({ unit }) => (
             boxShadow: `4px 4px 20px 0px ${unit.shadow}`,
           }}
         >
-          <div className="flex flex-col gap-1 justify-center items-center w-full">
-            <div className="text-sm text-[#CDD5DF] font-[600]">
+          <div className="flex flex-col gap-[2px] justify-center items-center w-full">
+            <div className="text-sm-responsive-second text-[#CDD5DF] font-[600]">
               <span className="font-[700] text-white">Line:</span> {item.line}
             </div>
 
-            <div className="text-sm text-[#CDD5DF] font-[600]">
+            <div className="text-sm-responsive-second text-[#CDD5DF] font-[600]">
               <span className="font-[700] text-white">SKU:</span> {item.sku}
             </div>
           </div>
 
-          <div className="flex flex-row justify-center gap-4 w-full mt-[6px]">
+          <div className="flex flex-row justify-center gap-4 w-full unit-img mt-[6px]">
             {item.images.map((src, i) => (
-              <img key={i} src={src} className="w-[110px] h-[100px]" />
+              <img key={i} src={src} className="unit-img-inner rounded-[5px]" />
             ))}
           </div>
         </div>
