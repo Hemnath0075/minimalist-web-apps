@@ -121,7 +121,7 @@ function Fourth() {
           </div>
 
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
-            <div className="text-xl text-gray-300 font-[600]">Yeild %</div>
+            <div className="text-xl text-gray-300 font-[600]">Yield %</div>
             <div className="text-red text-xl font-semibold">95%</div>
           </div>
 

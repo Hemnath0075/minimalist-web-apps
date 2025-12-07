@@ -208,7 +208,7 @@ function SecondHeader({ selectedDate, onDateChange }) {
             }
             suffixIcon={<div></div>}
             style={{
-              padding: "4% 2%",
+              padding: "3% 2%",
               backgroundColor: "#000E38",
               marginTop: "8px",
               fontSize: "2rem",

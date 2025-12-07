@@ -71,16 +71,16 @@ const data = [
 
 // ---------- CELL RENDER HELPERS ----------
 const stackedCell = (obj) => (
-  <div className="flex flex-col leading-tight text-[0.85rem]">
-    <span className="text-white">{obj.top}</span>
-    <span className="text-gray-400">{obj.bottom}</span>
+  <div className="flex flex-col leading-tight font-[600]">
+    <span className="text-white text-md-responsive">{obj.top}</span>
+    <span className="text-gray-400 text-xs-responsive">{obj.bottom}</span>
   </div>
 );
 
 const crqsCell = (obj) => (
-  <div className="flex flex-col leading-tight text-[0.85rem]">
-    <span className="text-red-400">{obj.top}</span>
-    <span className="text-yellow-400">{obj.bottom}</span>
+  <div className="flex flex-col leading-tight text-sm-responsive font-[500]">
+    <span className="text-white">{obj.top}</span>
+    <span className="text-white">{obj.bottom}</span>
   </div>
 );
 
@@ -213,15 +213,15 @@ function Home() {
       {/* ========= TOP KPI ROWS ========= */}
       <div className="w-full rounded-[10px] bg-secondary p-4 mt-4 flex flex-col gap-4">
         {/* KPI CARD */}
-        <div className="text-white flex-row w-full justify-center items-center text-center font-[600] text-[1.05rem]">
+        <div className="text-white flex-row w-full justify-center items-center text-center font-[600] text-lg-responsive">
           KPIs (YTD)
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-responsive">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-responsive">
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
             <div className="text-gray-300 font-[600] text-responsive">
               Cost Budget (Actual/Target)
             </div>
-            <div className="text-green font-semibold text-xl">
+            <div className="text-green font-semibold text-xl-responsive">
               1,280 Cr. <span className="text-white">/</span>{" "}
               <span className="text-yellow">1,320 Cr.</span>
             </div>
@@ -229,28 +229,33 @@ function Home() {
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
             <div className="text-gray-300 font-[600] text-responsive">MOQ Concerns</div>
-            <div className="text-yellow text-xl font-semibold">20</div>
+            <div className="text-white text-xl-responsive font-semibold">20</div>
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
             <div className="text-gray-300 font-[600] text-responsive">
               Inventory + NMSM
             </div>
-            <div className="text-red text-xl font-semibold">
+            <div className="text-red text-xl-responsive font-semibold">
               1,380 Cr. / 1,320 Cr.
             </div>
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
             <div className="text-gray-300 font-[600] text-responsive">DPMU</div>
-            <div className="text-green font-semibold text-xl">6,000 / 8000</div>
+            <div className="text-green font-semibold text-xl-responsive">6,000 / 8000</div>
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
             <div className="text-gray-300 font-[600] text-responsive">
               OR + Prod vs Booking Gap
             </div>
-            <div className="text-red text-xl font-semibold">64% / 80%</div>
+            <div className="text-red text-xl-responsive font-semibold">64% / 80%</div>
+          </div>
+
+           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
+            <div className="text-gray-300 font-[600] text-responsive">No. of launches</div>
+            <div className="text-white text-xl-responsive font-semibold">154</div>
           </div>
         </div>
       </div>
@@ -259,7 +264,7 @@ function Home() {
       {/* ========= COMPLIANCE (YTD) SECTION ========= */}
       <div className="flex flex-row justify-between items-center gap-2 w-full h-[24vh]">
         <div className="w-full h-full max-w-[1800px] bg-containergreen px-4 py-2 rounded-[10px] mt-6">
-          <div className="text-gray-200 text-[1.05rem] font-semibold mb-4 text-center">
+          <div className="text-gray-200 text-lg-responsive font-semibold mb-4 text-center">
             Compliance (YTD)
           </div>
 
@@ -370,7 +375,7 @@ function Home() {
 
         {/* ========= DEEP DIVES ========= */}
         <div className="w-full h-full max-w-[1800px] bg-containergreen px-4 py-2 rounded-[10px] mt-6">
-          <div className="text-gray-200 text-[1.05rem] font-semibold mb-4 text-center">
+          <div className="text-gray-200 text-lg-responsive font-semibold mb-4 text-center">
             Deep Dives
           </div>
 

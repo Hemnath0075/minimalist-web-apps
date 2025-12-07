@@ -6,7 +6,7 @@ import { CiCalendar } from "react-icons/ci";
 import Select, { components } from "react-select";
 import { GoDash } from "react-icons/go";
 
-  const { RangePicker } = DatePicker;
+const { RangePicker } = DatePicker;
 
 const InputOption = ({
   getStyles,
@@ -105,7 +105,6 @@ function Header({ selectedDate, onDateChange }) {
         </p>
       </div>
       <div className="flex flex-row justify-center items-center text-white gap-3">
-        
         <div className="flex flex-col mt-2 basis-[35%]">
           <Select
             // key={index}
@@ -137,9 +136,10 @@ function Header({ selectedDate, onDateChange }) {
                 };
               },
             }}
-            options={
-              [{label:"Lotus",value:"lotus"},{label:"Lotus",value:"lotus"}]
-            }
+            options={[
+              { label: "Lotus", value: "lotus" },
+              { label: "Lotus", value: "lotus" },
+            ]}
             // value={filteredParameters["item"]}
             // onChange={(selectedOption) =>
             //   handleSelectChange(selectedOption, item)
@@ -156,7 +156,13 @@ function Header({ selectedDate, onDateChange }) {
               : null
           }
           className="relative"
-          separator={<GoDash color="#ffffff" fontSize={"2.5vmin"} className="absolute left-[38%] bottom-[8px]"/>}
+          separator={
+            <GoDash
+              color="#ffffff"
+              fontSize={"2.5vmin"}
+              className="absolute left-[38%] bottom-[8px]"
+            />
+          }
           suffixIcon={<div></div>}
           style={{
             padding: "2% 0.7%",
@@ -166,7 +172,7 @@ function Header({ selectedDate, onDateChange }) {
             fontWeight: "400",
             textAlign: "center",
             borderRadius: "10px",
-            borderColor: "#083283"
+            borderColor: "#083283",
           }}
           format="DD-MM-YYYY"
           onChange={handleRangeChange}
