@@ -1096,6 +1096,11 @@ ant-picker
   padding-bottom: calc(0.8rem * var(--space-scale));
 }
 
+.py-1-responsive {
+  padding-top: calc(0.6rem * var(--space-scale));
+  padding-bottom: calc(0.6rem * var(--space-scale));
+}
+
 .mb-3-responsive {
   margin-bottom: calc(0.3rem * var(--space-scale));
 }
@@ -1158,6 +1163,7 @@ ant-picker
   font-size: var(--fs-sm); /* maps to text-md-responsive size */
   fill: #C7D3EA;
   font-family: inherit;
+  text-align: left;
 }
 
 .chart-axis-label {

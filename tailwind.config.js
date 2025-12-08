@@ -4,6 +4,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'max-h-750': { 'raw': '(max-height: 750px)' }, 
+        'min-h-750': { 'raw': '(min-height: 750px)' }, 
+      },
       colors: {
         primary: {
           DEFAULT: '#000822', // or your primary color

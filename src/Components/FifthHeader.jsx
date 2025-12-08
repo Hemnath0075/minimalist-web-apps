@@ -112,23 +112,21 @@ function FifthHeader({ selectedDate, onDateChange }) {
             hideSelectedOptions={false}
             // placeholder={item}
             styles={{
-              control: (baseStyles, state) => ({
-                ...baseStyles,
-                backgroundColor: "#ffffff",
-                fontSize: "1.15rem",
-                padding: "1.5% 1.5% ",
-                color: "#000000",
-                borderColor: "#CDD5DF",
-                flexBasis: "20%",
+              control: (base, state) => ({
+                ...base,
+                padding: "3px 5px",
+                fontSize: "1rem",
+                borderColor: state.isFocused ? "#083283" : "#083283",
+                boxShadow: state.isFocused ? "0 0 0 1px #083283" : "none",
+                borderRadius: "10px",
+                backgroundColor: "#000e38",
+                ":hover": {
+                  borderColor: "#083283",
+                },
+                ":focus": {
+                  borderColor: "#083283",
+                },
               }),
-              option: (styles, { isDisabled, isFocused }) => {
-                return {
-                  ...styles,
-                  backgroundColor: isFocused ? "#ffffff" : "transparent",
-                  color: "black",
-                  cursor: isDisabled ? "not-allowed" : "default",
-                };
-              },
             }}
             options={[
               { label: "Shift A", value: "Shift A" },
@@ -154,14 +152,20 @@ function FifthHeader({ selectedDate, onDateChange }) {
             hideSelectedOptions={false}
             // placeholder={item}
             styles={{
-              control: (baseStyles, state) => ({
-                ...baseStyles,
-                backgroundColor: "#ffffff",
-                fontSize: "1.15rem",
-                padding: "1.5% 1.5% ",
-                color: "#000000",
-                borderColor: "#CDD5DF",
-                flexBasis: "20%",
+              control: (base, state) => ({
+                ...base,
+                padding: "3px 5px",
+                fontSize: "1rem",
+                borderColor: state.isFocused ? "#083283" : "#083283",
+                boxShadow: state.isFocused ? "0 0 0 1px #083283" : "none",
+                borderRadius: "10px",
+                backgroundColor: "#000e38",
+                ":hover": {
+                  borderColor: "#083283",
+                },
+                ":focus": {
+                  borderColor: "#083283",
+                },
               }),
               option: (styles, { isDisabled, isFocused }) => {
                 return {
@@ -209,7 +213,7 @@ function FifthHeader({ selectedDate, onDateChange }) {
               fontWeight: "400",
               textAlign: "center",
               borderRadius: "10px",
-              borderColor: "#083283"
+              borderColor: "#083283",
             }}
             format="DD-MM-YYYY"
             onChange={handleRangeChange}

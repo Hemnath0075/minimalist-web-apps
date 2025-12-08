@@ -232,7 +232,7 @@ function Fifth() {
         {/* KPI CARD */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-responsive">
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
-            <div className="text-gray-300 font-[600] text-lg-responsive">
+            <div className="text-gray-300 font-[600] text-xl-responsive">
               Total Production
             </div>
             <div className="text-green font-semibold text-xl-responsive">
@@ -241,7 +241,7 @@ function Fifth() {
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
-            <div className="text-gray-300 font-[600] text-lg-responsive">
+            <div className="text-gray-300 font-[600] text-xl-responsive">
               OEE
             </div>
             <div className="text-red text-xl-responsive font-semibold">
@@ -250,7 +250,7 @@ function Fifth() {
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
-            <div className="text-gray-300 font-[600] text-lg-responsive">
+            <div className="text-gray-300 font-[600] text-xl-responsive">
               DPMU
             </div>
             <div className="text-red text-xl-responsive font-semibold">
@@ -259,7 +259,7 @@ function Fifth() {
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
-            <div className="text-gray-300 font-[600] text-lg-responsive">
+            <div className="text-gray-300 font-[600] text-xl-responsive">
               Overall Wastage
             </div>
             <div className="text-green font-semibold text-xl-responsive">
@@ -268,7 +268,7 @@ function Fifth() {
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
-            <div className="text-gray-300 font-[600] text-lg-responsive">
+            <div className="text-gray-300 font-[600] text-xl-responsive">
               Holding Tank 1
             </div>
             <div className="text-red text-xl-responsive font-semibold">54%</div>
@@ -278,7 +278,7 @@ function Fifth() {
           </div>
 
           <div className="bg-[#000B2C] rounded-xl p-responsive flex flex-col justify-center items-center gap-responsive shadow-[4px_4px_20px_0px_#004AF640]">
-            <div className="text-gray-300 font-[600] text-lg-responsive">
+            <div className="text-gray-300 font-[600] text-xl-responsive">
               Holding Tank 2
             </div>
             <div className="text-red text-xl-responsive font-semibold">84%</div>
@@ -293,7 +293,7 @@ function Fifth() {
       {/* ========= COMPLIANCE (YTD) SECTION ========= */}
       <div className="flex flex-row justify-between items-center gap-2 w-full h-[32vh]">
         <div className="equal-block w-full max-w-[1800px] bg-secondary text-white px-4 py-2 rounded-[10px] mt-6">
-          <div className="grid grid-cols-[120px_1fr_1fr_1fr_1fr] justify-center gap-4 items-center">
+          <div className="grid grid-cols-[120px_1fr_1fr_1fr_1fr] justify-center gap-4 items-center text-center">
             {/* Header Row */}
             <div className="text-lg-responsive font-semibold">-</div>
             <div className="text-lg-responsive font-semibold">Status</div>
@@ -361,16 +361,16 @@ function Fifth() {
         </div>
 
         {/* ========= DEEP DIVES ========= */}
-        <div className="w-full equal-block max-w-[1800px] bg-containergreen px-4 py-2 rounded-[10px] mt-6">
+        <div className="w-full equal-block max-w-[1800px] bg-containergreen px-4 py-2-responsive rounded-[10px] mt-6">
           <div className="text-gray-200 text-xl-responsive font-semibold mb-2 text-center">
             Deep Dives
           </div>
 
           <div
-            className="w-full grid text-white gap-4"
-            style={{
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-            }}
+            className="w-full grid grid-cols-3 text-white gap-4"
+            // style={{
+            //   gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+            // }}
           >
             {[
               "Batch Analytics",
@@ -382,10 +382,8 @@ function Fifth() {
             ].map((item, idx) => (
               <div
                 key={idx}
-                className="bg-[#08252B] rounded-xl flex justify-center items-center text-center text-lg-responsive font-semibold shadow-[4px_4px_20px_0px_#134C58]"
-                style={{
-                  height: "100px", // equal height for all cards (adjust as you wish)
-                }}
+                className="bg-[#08252B] max-h-750:h-[80px] h-[100px] rounded-xl flex justify-center items-center text-center text-lg-responsive font-semibold shadow-[4px_4px_20px_0px_#134C58]"
+                
               >
                 {item}
               </div>
@@ -394,23 +392,23 @@ function Fifth() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full mt-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full mt-6">
         <div>
-          <div className="text-center text-xl-responsive text-white font-semibold mb-2">
+          <div className="text-center bg-secondary rounded-tl-[10px] rounded-tr-[10px] py-1-responsive text-xl-responsive text-white font-semibold">
             Production Compliance
           </div>
           <ProductionComplianceChart />
         </div>
 
         <div>
-          <div className="text-center text-xl-responsive text-white font-semibold mb-2">
+          <div className="text-center bg-secondary rounded-tl-[10px] rounded-tr-[10px] py-1-responsive text-xl-responsive text-white font-semibold">
             EGA
           </div>
           <EGAChart />
         </div>
 
         <div>
-          <div className="text-center text-xl-responsive text-white font-semibold mb-2">
+          <div className="text-center bg-secondary rounded-tl-[10px] rounded-tr-[10px] py-1-responsive text-xl-responsive text-white font-semibold">
             Dispatch
           </div>
           <DispatchChart />
@@ -421,7 +419,6 @@ function Fifth() {
 }
 
 export default Fifth;
-
 
 const ProductionComplianceChart = () => {
   const data = [
@@ -435,17 +432,33 @@ const ProductionComplianceChart = () => {
   ];
 
   return (
-    <div className="w-full h-[260px] rounded-lg bg-secondary overflow-hidden p-2">
+    <div className="w-full h-[260px] rounded-bl-lg rounded-br-lg bg-[#000B2C] overflow-hidden p-2">
+      <ChartLegend
+        items={[
+          { label: "Shift A", color: "#1E40FF" },
+          { label: "Shift B", color: "#C9780C" },
+          { label: "Shift C", color: "#0B5B23" },
+          { label: "Target", color: "#4ED6D6" },
+        ]}
+      />
       <ResponsiveContainer>
-        <ComposedChart data={data}>
+        <ComposedChart
+          data={data}
+          margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
+        >
           <CartesianGrid stroke="rgba(255,255,255,0.12)" />
 
           <XAxis
+            height={50}
             dataKey="date"
             tick={{ className: "chart-tick" }}
             stroke="#C7D3EA"
           />
-          <YAxis tick={{ className: "chart-tick" }} stroke="#C7D3EA" />
+          <YAxis
+            width={35}
+            tick={{ className: "chart-tick" }}
+            stroke="#C7D3EA"
+          />
 
           <Tooltip
             contentStyle={{
@@ -457,9 +470,9 @@ const ProductionComplianceChart = () => {
           />
 
           {/* Bars */}
-          <Bar dataKey="a" stackId="pv" fill="#1E40FF" />
-          <Bar dataKey="b" stackId="pv" fill="#C9780C" />
-          <Bar dataKey="c" stackId="pv" fill="#0B5B23" />
+          <Bar barSize={25} dataKey="a" stackId="pv" fill="#1E40FF" />
+          <Bar barSize={25} dataKey="b" stackId="pv" fill="#C9780C" />
+          <Bar barSize={25} dataKey="c" stackId="pv" fill="#0B5B23" />
 
           {/* Target Line */}
           <Line
@@ -487,7 +500,14 @@ const EGAChart = () => {
   ];
 
   return (
-    <div className="w-full h-[260px] rounded-lg bg-secondary overflow-hidden p-2">
+    <div className="w-full h-[260px] rounded-bl-lg rounded-br-lg bg-[#000B2C] overflow-hidden p-2">
+      <ChartLegend
+        items={[
+          { label: "Line 1", color: "#6EC7FF" },
+          { label: "Line 2", color: "#FFA634" },
+          { label: "Line 3", color: "#107441" },
+        ]}
+      />
       <ResponsiveContainer>
         <AreaChart data={data}>
           <defs>
@@ -506,8 +526,17 @@ const EGAChart = () => {
           </defs>
 
           <CartesianGrid stroke="rgba(255,255,255,0.12)" />
-          <XAxis dataKey="date" stroke="#C7D3EA" tick={{ className: "chart-tick" }} />
-          <YAxis stroke="#C7D3EA" tick={{ className: "chart-tick" }} />
+          <XAxis
+            height={50}
+            dataKey="date"
+            stroke="#C7D3EA"
+            tick={{ className: "chart-tick" }}
+          />
+          <YAxis
+            width={35}
+            stroke="#C7D3EA"
+            tick={{ className: "chart-tick" }}
+          />
 
           <Tooltip
             contentStyle={{
@@ -518,15 +547,29 @@ const EGAChart = () => {
             }}
           />
 
-          <Area type="monotone" dataKey="l1" stroke="#6EC7FF" fill="url(#ega1)" />
-          <Area type="monotone" dataKey="l2" stroke="#FFA634" fill="url(#ega2)" />
-          <Area type="monotone" dataKey="l3" stroke="#107441" fill="url(#ega3)" />
+          <Area
+            type="monotone"
+            dataKey="l1"
+            stroke="#6EC7FF"
+            fill="url(#ega1)"
+          />
+          <Area
+            type="monotone"
+            dataKey="l2"
+            stroke="#FFA634"
+            fill="url(#ega2)"
+          />
+          <Area
+            type="monotone"
+            dataKey="l3"
+            stroke="#107441"
+            fill="url(#ega3)"
+          />
         </AreaChart>
       </ResponsiveContainer>
     </div>
   );
 };
-
 
 const DispatchChart = () => {
   const data = [
@@ -534,13 +577,17 @@ const DispatchChart = () => {
     { name: "Minimalist Vitamin B5 10% Moisturizer", value: 340 },
     { name: "Minimalist SPF 50 Sunscreen", value: 260 },
     { name: "Minimalist Anti Dandruff Shampoo 3.5%", value: 180 },
-    { name: "Minimalist Vitamin C 10% Face Serum", value: 120 },
   ];
 
   return (
-    <div className="w-full h-[260px] rounded-lg bg-secondary overflow-hidden p-2">
+    <div className="w-full h-[260px] rounded-bl-lg rounded-br-lg bg-[#000B2C] overflow-hidden p-2">
       <ResponsiveContainer>
-        <BarChart data={data} layout="vertical" barSize={22}>
+        <BarChart
+          data={data}
+          layout="vertical"
+          barSize={22}
+          barCategoryGap={30}
+        >
           <CartesianGrid horizontal stroke="rgba(255,255,255,0.12)" />
 
           <XAxis
@@ -551,9 +598,9 @@ const DispatchChart = () => {
           <YAxis
             type="category"
             dataKey="name"
-            width={180}
+            width={130}
             stroke="#C7D3EA"
-            tick={{ className: "chart-tick" }}
+            tick={<LeftAlignedTick />} // <-- CUSTOM TICK HERE
           />
 
           <Tooltip
@@ -571,3 +618,56 @@ const DispatchChart = () => {
     </div>
   );
 };
+const LeftAlignedTick = ({ y, payload }) => {
+  const words = payload.value.split(" ");
+  const lines = [];
+  let current = "";
+
+  words.forEach((w) => {
+    if ((current + " " + w).length > 20) {
+      lines.push(current);
+      current = w;
+    } else {
+      current += (current ? " " : "") + w;
+    }
+  });
+  lines.push(current);
+
+  const fontSize = window.innerHeight < 750 ? "0.65rem" : "0.80rem";
+
+  return (
+    <g transform={`translate(0, ${y - (lines.length - 1) * 7})`}>
+      {lines.map((line, i) => (
+        <text
+          key={i}
+          x={10}
+          y={i * 14}
+          textAnchor="start"
+          fill="#C7D3EA"
+          style={{
+            fontSize,
+            fontWeight: 600,
+          }}
+        >
+          {line}
+        </text>
+      ))}
+    </g>
+  );
+};
+
+
+const ChartLegend = ({ items }) => (
+  <div className="flex gap-4 mb-1 justify-center">
+    {items.map((i) => (
+      <div key={i.label} className="flex items-center gap-1 text-sm-responsive text-gray-200">
+        <span
+          className="inline-block w-3 h-3 rounded-[50%]"
+          style={{ background: i.color }}
+        />
+        {i.label}
+      </div>
+    ))}
+  </div>
+);
+
