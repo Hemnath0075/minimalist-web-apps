@@ -65,7 +65,7 @@ const MultiValue = ({ getValue, index, item, ...props }) => {
   return !index && `${item} (${getValue().length})`;
 };
 
-function FourthHeader({ selectedDate, onDateChange }) {
+function FourthHeader({ selectedDate, onRangeChange }) {
   const {
     register,
     handleSubmit,
@@ -81,14 +81,15 @@ function FourthHeader({ selectedDate, onDateChange }) {
 
   const [dateRange, setDateRange] = useState([]);
 
-  async function handleRangeChange(dates) {
-    // dates is an array [startDate, endDate] or an empty array if cleared
-    const startOfDay = dates[0].startOf("day");
-    const endOfDay = dates[1].endOf("day");
-    const timestamps = [startOfDay.unix() * 1000, endOfDay.unix() * 1000];
-    console.log(timestamps);
-    setDateRange([startOfDay, endOfDay]);
-  }
+  function handleRangeChange(date) {
+  if (!date) return;
+
+  const start = date.startOf("day").unix();
+  const end = date.endOf("day").unix();
+
+  onRangeChange({ start, end });
+}
+
 
   return (
     <div className="header-main w-full bg-secondary rounded-[10px] flex flex-row justify-between px-6 py-2 items-center">
@@ -107,22 +108,9 @@ function FourthHeader({ selectedDate, onDateChange }) {
       <div className="flex flex-row justify-center items-center text-white gap-3">
         <div className="basis-[100%]">
           <DatePicker
-            defaultValue={
-              dateRange.length > 0
-                ? [
-                    dayjs(dateRange[0], "DD/MM/YYYY"),
-                    dayjs(dateRange[1], "DD/MM/YYYY"),
-                  ]
-                : null
-            }
+            
             className="relative"
-            separator={
-              <GoDash
-                color="#ffffff"
-                fontSize={"2.5vmin"}
-                className="absolute left-[38%] bottom-[8px]"
-              />
-            }
+            
             suffixIcon={<div></div>}
             style={{
               padding: "4% 2%",

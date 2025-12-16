@@ -52,7 +52,7 @@ function Fourth() {
   const authenticateSession = async () => {
     let payload = {
       username: "tester",
-      password: "admin_password",
+      password: "password",
     };
     const loginRes = await apiService.login(payload.username, payload.password);
     console.log(loginRes);
@@ -94,7 +94,10 @@ function Fourth() {
   }, []);
 
   useEffect(() => {
+    console.log(timeRange?.start);
+    console.log(timeRange?.end);
     if (!timeRange) return;
+
     getSessionData(timeRange.start, timeRange.end);
   }, [timeRange]);
 
