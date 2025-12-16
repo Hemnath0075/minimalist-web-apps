@@ -6,6 +6,7 @@ import { customHistory } from "../history";
 export const Endpoint = {
   LOGIN: "/auth/signin",
 
+  ANALYTICS: "/analytics/cumulative-count?start_time={start_time}&end_time={end_time}&output_key=detected",
 
   // GET ALL SESSIONS 
   GET_ALL_SESSIONS: "/pipeline-session/all?limit=50&sort=1",

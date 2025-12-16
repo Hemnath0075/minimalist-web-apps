@@ -42,67 +42,68 @@ const chartTheme = {
 };
 
 function Fourth() {
-  const classifyShift = (epochSec, dateStr) => {
-    const ts = dayjs.unix(epochSec);
-    const dayStart = dayjs(dateStr, "DD-MM-YYYY");
-
-    const shift1_start = dayStart.hour(6).minute(0);
-    const shift1_end = dayStart.hour(14).minute(0);
-
-    const shift2_start = dayStart.hour(14).minute(0);
-    const shift2_end = dayStart.hour(22).minute(0);
-
-    const shift3_start = dayStart.hour(22).minute(0);
-    const shift3_end = dayStart.add(1, "day").hour(6).minute(0);
-
-    if (ts.isBetween(shift1_start, shift1_end, null, "[)")) return "A";
-    if (ts.isBetween(shift2_start, shift2_end, null, "[)")) return "B";
-    if (ts.isBetween(shift3_start, shift3_end, null, "[)")) return "C";
-
-    return null;
-  };
+  const [timeRange, setTimeRange] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
   // const data = generateRowsWithTotal(6); // <-- FIXED
-  const todayStr = dayjs().format("DD-MM-YYYY");
-  const [selectedDate, setSelectedDate] = useState(todayStr);
+  // const todayStr = dayjs().format("DD-MM-YYYY");
+  // const [selectedDate, setSelectedDate] = useState(todayStr);
 
-  // const authenticateSession = async () => {
-  //   let payload = {
-  //     username: "tester",
-  //     password: "admin_password",
-  //   };
-  //   const loginRes = await apiService.login(payload.username,payload.password);
-  //   console.log(loginRes);
-  // };
-
-  const getShiftEpochs = ({ selectedDate, shift }) => {
-    const { start, end } = { start: "00:00", end: "23:59" };
-
-    const dateFormat = "DD-MM-YYYY HH:mm";
-
-    // Start time is same day
-    const startDateTime = dayjs(`${selectedDate} ${start}`, dateFormat);
-
-    // End time — if end < start → means it crosses midnight → add 1 day
-    let endDateTime = dayjs(`${selectedDate} ${end}`, dateFormat);
-    if (endDateTime.isBefore(startDateTime)) {
-      endDateTime = endDateTime.add(1, "day");
-    }
-
-    return {
-      startEpoch: Math.floor(startDateTime.unix()), // epoch in seconds
-      endEpoch: Math.floor(endDateTime.unix()),
-      startDateTime: startDateTime.format("YYYY-MM-DD HH:mm:ss"),
-      endDateTime: endDateTime.format("YYYY-MM-DD HH:mm:ss"),
+  const authenticateSession = async () => {
+    let payload = {
+      username: "tester",
+      password: "admin_password",
     };
+    const loginRes = await apiService.login(payload.username, payload.password);
+    console.log(loginRes);
   };
+
+  const [chartData, setChartData] = useState([]);
+
+  const getSessionData = async (start_time, end_time) => {
+    const endpoint = Endpoint.ANALYTICS.replace(
+      "{start_time}",
+      start_time
+    ).replace("{end_time}", end_time);
+
+    const res = await apiService.get(endpoint);
+    if (res.status !== 200) return;
+
+    // group by created_at
+    const grouped = {};
+
+    res.data.data.forEach((item) => {
+      const ts = item.created_at;
+      if (!grouped[ts]) grouped[ts] = { time: dayjs.unix(ts).format("HH:mm") };
+
+      if (item.output_key === "MLC")
+        grouped[ts].mlc = Number(item.output_value);
+
+      if (item.output_key === "Wax_Temp_Actual")
+        grouped[ts].wax_temp = Number(item.output_value);
+
+      if (item.output_key === "Stirer_Actual_Speed")
+        grouped[ts].stirer_speed = Number(item.output_value);
+    });
+
+    setChartData(Object.values(grouped));
+  };
+
+  useEffect(() => {
+    authenticateSession();
+  }, []);
+
+  useEffect(() => {
+    if (!timeRange) return;
+    getSessionData(timeRange.start, timeRange.end);
+  }, [timeRange]);
 
   return (
     <div className="flex py-1 px-2 flex-col bg-primary items-center w-full min-h-screen">
       <FourthHeader
-        selectedDate={selectedDate}
-        onDateChange={(date) => setSelectedDate(date)}
+        onRangeChange={({ start, end }) => {
+          setTimeRange({ start, end });
+        }}
       />
       {/* ========= TOP KPI ROWS ========= */}
       <div className="w-full rounded-[10px] bg-secondary p-4 mt-4 flex flex-col gap-4">
@@ -164,11 +165,18 @@ function Fourth() {
       <div className="mt-1 text-white flex flex-col justify-center items-center w-full">
         <div className="w-full bg-secondary flex flex-row justify-between items-center mt-4">
           <div className="basis-[13%] w-full flex flex-row justify-center items-center">
-            <p className="text-xl-responsive text-wrap font-[600]">Mixer Temperature</p>
+            <p className="text-xl-responsive text-wrap font-[600]">
+              Mixer Temperature
+            </p>
           </div>
 
           <div className="basis-[90%]">
-            <ProcessChart legend={"Temperature (Celsius)"} />
+            <ProcessChart
+              data={chartData}
+              legend="Temperature (°C)"
+              dataKey="wax_temp"
+              stroke="#6AA8FF"
+            />
           </div>
         </div>
       </div>
@@ -179,7 +187,12 @@ function Fourth() {
           </div>
 
           <div className="basis-[90%]">
-            <ProcessChart legend={"RPM"} />
+            <ProcessChart
+              data={chartData}
+              legend="RPM"
+              dataKey="stirer_speed"
+              stroke="#00C8C8"
+            />
           </div>
         </div>
       </div>
@@ -190,7 +203,12 @@ function Fourth() {
           </div>
 
           <div className="basis-[90%]">
-            <ProcessChart legend={"Temperature (Celsius)"} />
+            <ProcessChart
+              data={chartData}
+              legend="MLC"
+              dataKey="mlc"
+              stroke="#EEC942"
+            />
           </div>
         </div>
       </div>
@@ -200,15 +218,7 @@ function Fourth() {
 
 export default Fourth;
 
-const ProcessChart = ({ title, legend }) => {
-  // sample data (7 points from 0..6)
-  const data = Array.from({ length: 7 }).map((_, i) => ({
-    time: i,
-    t1: 40 + Math.sin(i) * 25,
-    t2: 20 + Math.cos(i * 1.3) * 30,
-    t3: 35 + Math.sin(i * 0.8) * 20,
-  }));
-
+const ProcessChart = ({ data, legend, dataKey, stroke }) => {
   // margins must match overlay padding below if you change them
   const chartMargin = { top: 10, right: 20, bottom: 10, left: 40 };
 
@@ -247,7 +257,8 @@ const ProcessChart = ({ title, legend }) => {
           <ReferenceArea x1={4} x2={6} fill="url(#step3)" />
 
           <CartesianGrid stroke="rgba(255,255,255,0.12)" />
-          <XAxis dataKey="time" tick={{ className: "chart-tick" }} stroke="#C7D3EA" />
+          <XAxis dataKey="time" />
+
           <YAxis
             tick={{ className: "chart-tick" }}
             stroke="#C7D3EA"
@@ -276,7 +287,7 @@ const ProcessChart = ({ title, legend }) => {
 
           <Line
             type="monotone"
-            dataKey="t1"
+            dataKey={dataKey}
             stroke="#6AA8FF"
             dot={{
               r: 4, // dot size
@@ -292,20 +303,6 @@ const ProcessChart = ({ title, legend }) => {
             }}
             strokeWidth={3}
           />
-          {/* <Line
-            type="monotone"
-            dataKey="t2"
-            stroke="#00C8C8"
-            dot={false}
-            strokeWidth={3}
-          />
-          <Line
-            type="monotone"
-            dataKey="t3"
-            stroke="#EEC942"
-            dot={false}
-            strokeWidth={3}
-          /> */}
         </LineChart>
       </ResponsiveContainer>
 
