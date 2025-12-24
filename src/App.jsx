@@ -51,7 +51,7 @@ const Main = () => {
           <Route path="/1" element={<Home isCollapsed={isCollapsed}/>} />
           <Route path="/2" element={<Second isCollapsed={isCollapsed}/>} />
           <Route path="/3" element={<Third isCollapsed={isCollapsed}/>} />
-          <Route path="/4" element={<Fourth isCollapsed={isCollapsed}/>} />
+          <Route path="/" element={<Fourth isCollapsed={isCollapsed}/>} />
           <Route path="/5" element={<Fifth isCollapsed={isCollapsed}/>} />
         </Routes>
       </div>

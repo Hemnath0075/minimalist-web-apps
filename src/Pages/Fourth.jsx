@@ -43,6 +43,7 @@ const chartTheme = {
 
 function Fourth() {
   const [timeRange, setTimeRange] = useState(null);
+  const [productName, setProductName] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
   // const data = generateRowsWithTotal(6); // <-- FIXED
@@ -74,7 +75,17 @@ function Fourth() {
 
     res.data.data.forEach((item) => {
       const ts = item.created_at;
-      if (!grouped[ts]) grouped[ts] = { time: dayjs.unix(ts).format("HH:mm") };
+
+      if (item.output_key === "Product_Name") {
+        setProductName(item.output_value);
+      }
+
+      if (!grouped[ts]) {
+        grouped[ts] = {
+          time: dayjs.unix(ts).format("HH:mm"),
+          rawTs: ts, // IMPORTANT
+        };
+      }
 
       if (item.output_key === "MLC")
         grouped[ts].mlc = Number(item.output_value);
@@ -86,7 +97,17 @@ function Fourth() {
         grouped[ts].stirer_speed = Number(item.output_value);
     });
 
-    setChartData(Object.values(grouped));
+    const rows = Object.values(grouped)
+      .sort((a, b) => a.rawTs - b.rawTs)
+      .map((row, idx) => ({
+        ...row,
+        idx, // numeric X value
+      }));
+
+    setChartData(rows);
+
+
+    // setChartData(Object.values(grouped));
   };
 
   useEffect(() => {
@@ -116,14 +137,14 @@ function Fourth() {
             <div className="text-xl-responsive text-gray-300 font-[600]">
               Batch Name
             </div>
-            <div className="text-green text-xl-responsive font-semibold">
-              SPF 50 Sunscreen
+            <div className="text-green text-xl-responsive capitalize font-semibold">
+              {productName}
             </div>
           </div>
 
           <div className="bg-[#000B2C] shadow-[4px_4px_20px_0px_#004AF640] rounded-xl p-4 flex flex-col justify-center items-center gap-2">
             <div className="text-xl-responsive text-gray-300 font-[600]">
-              BCT
+              Batch Code
             </div>
             <div className="text-red text-xl-responsive font-semibold">
               6 Hours
@@ -222,176 +243,98 @@ function Fourth() {
 export default Fourth;
 
 const ProcessChart = ({ data, legend, dataKey, stroke }) => {
+  const total = data.length;
+  const step = Math.floor(total / 3);
+
+  const stepRanges = [
+    { from: 0, to: step, fill: "url(#step1)" },
+    { from: step, to: step * 2, fill: "url(#step2)" },
+    { from: step * 2, to: total - 1, fill: "url(#step3)" },
+  ];
+
+
   // margins must match overlay padding below if you change them
   const chartMargin = { top: 10, right: 20, bottom: 10, left: 40 };
 
   return (
-    <div className="w-full h-[260px] rounded-lg bg-secondary mt-4 overflow-hidden relative">
-      {/* --- Chart (fills the container) --- */}
+    <div className="w-full h-[260px] rounded-lg bg-secondary mt-4 relative">
       <ResponsiveContainer>
         <LineChart data={data} margin={chartMargin}>
-          {/* ===== SVG gradients (top -> bottom) =====
-              Note: stop at 0% has the stronger color and 100% is transparent,
-              so color falls from top -> bottom.
-          */}
           <defs>
-            {/* STEP 1: orange-ish top to transparent bottom */}
             <linearGradient id="step1" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="rgba(200,100,0,0.30)" />
+              <stop offset="0%" stopColor="rgba(200,100,0,0.35)" />
               <stop offset="100%" stopColor="rgba(200,100,0,0)" />
             </linearGradient>
 
-            {/* STEP 2: blue-ish top to transparent bottom */}
             <linearGradient id="step2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="rgba(34,120,174,0.30)" />
+              <stop offset="0%" stopColor="rgba(34,120,174,0.35)" />
               <stop offset="100%" stopColor="rgba(34,120,174,0)" />
             </linearGradient>
 
-            {/* STEP 3: green-ish top to transparent bottom */}
             <linearGradient id="step3" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="rgba(0,75,35,0.30)" />
+              <stop offset="0%" stopColor="rgba(0,75,35,0.35)" />
               <stop offset="100%" stopColor="rgba(0,75,35,0)" />
             </linearGradient>
           </defs>
 
-          {/* ===== Apply shading only inside plot area (x range as example 0..6) ===== */}
-          <ReferenceArea x1={0} x2={2} fill="url(#step1)" />
-          <ReferenceArea x1={2} x2={4} fill="url(#step2)" />
-          <ReferenceArea x1={4} x2={6} fill="url(#step3)" />
+          {/* STEP BACKGROUNDS */}
+          {stepRanges.map((s, i) => (
+            <ReferenceArea
+              key={i}
+              x1={s.from}
+              x2={s.to}
+              fill={s.fill}
+              ifOverflow="extendDomain"
+            />
+          ))}
 
-          <CartesianGrid stroke="rgba(255,255,255,0.12)" />
-          <XAxis dataKey="time" />
-
-          <YAxis
-            tick={{ className: "chart-tick" }}
-            stroke="#C7D3EA"
-            label={{
-              value: legend,
-              angle: -90,
-              fill: "#C7D3EA",
-              position: "insideLeft",
-              offset: 0,
-              dx: 0,
-              dy: 0,
-              textAnchor: "middle",
-              className: "chart-axis-label",
-              fontWeight: 600,
-            }}
+          {/* X AXIS (still shows time) */}
+          <XAxis
+            dataKey="idx"
+            tickFormatter={(v) => data[v]?.time}
+            tick={{ fill: "#C7D3EA" }}
+            tickLine={false}
+            axisLine={{ stroke: "#1E2F4A" }}
           />
+
+          {/* Y AXIS */}
+          <YAxis
+            tick={{ fill: "#C7D3EA" }}
+            axisLine={{ stroke: "#1E2F4A" }}
+          />
+
+          {/* REMOVE GRID */}
+          {/* <CartesianGrid /> */}
 
           <Tooltip
-            contentStyle={{
-              background: "#0A1A35",
-              borderRadius: 8,
-              border: "1px solid #1E2F4A",
-              color: "white",
+            labelFormatter={(v) => `Time: ${data[v]?.time}`}
+            formatter={(value) => {
+              if (value == null) return ["-", legend];
+
+              return [`${Number(value).toFixed(2)}`, legend];
             }}
+            contentStyle={{
+              backgroundColor: "#0A1A35",
+              border: "1px solid #1E2F4A",
+              borderRadius: 8,
+              color: "#C7D3EA",
+            }}
+            labelStyle={{ color: "#9FB3D1", fontWeight: 600 }}
           />
+
 
           <Line
             type="monotone"
             dataKey={dataKey}
-            stroke="#6AA8FF"
-            dot={{
-              r: 4, // dot size
-              stroke: "#ffffffaa", // outer ring glow
-              strokeWidth: 1,
-              fill: "#EAD97C", // dot fill color (your gold/yellow)
-            }}
-            activeDot={{
-              r: 6,
-              stroke: "#ffffff",
-              strokeWidth: 1,
-              fill: "#FFEFA3",
-            }}
+            stroke={stroke}
             strokeWidth={3}
+            dot={false}
+            connectNulls={true}
+            // dot={{ r: 3, fill: "#FFEFA3" }}
+            activeDot={{ r: 5 }}
           />
         </LineChart>
       </ResponsiveContainer>
-
-      {/* --- Overlay: step labels centered inside the PLOT AREA (not axes) --- */}
-      {/* This overlay uses the same padding as chartMargin to avoid covering axis ticks/labels */}
-      <div
-        aria-hidden
-        style={{
-          position: "absolute",
-          inset: 0,
-          pointerEvents: "none",
-          display: "flex",
-          paddingTop: chartMargin.top,
-          paddingBottom: chartMargin.bottom,
-          paddingLeft: chartMargin.left, // leaves space for Y axis
-          paddingRight: chartMargin.right, // leaves space for right margin
-        }}
-      >
-        {/* Three equal regions (match the ReferenceArea x-intervals: 0-2,2-4,4-6) */}
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "start",
-            marginTop: "10px",
-            marginLeft: "50px",
-          }}
-        >
-          <div
-            className="text-xl-responsive"
-            style={{
-              color: "white",
-              fontWeight: 700,
-              textShadow: "0 1px 6px rgba(0,0,0,0.6)",
-            }}
-          >
-            Step 1
-          </div>
-        </div>
-
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "start",
-            marginTop: "10px",
-            marginLeft: "50px",
-          }}
-        >
-          <div
-            className="text-xl-responsive"
-            style={{
-              color: "white",
-              fontWeight: 700,
-
-              textShadow: "0 1px 6px rgba(0,0,0,0.6)",
-            }}
-          >
-            Step 2
-          </div>
-        </div>
-
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "start",
-            marginTop: "10px",
-            marginLeft: "50px",
-          }}
-        >
-          <div
-            className="text-xl-responsive"
-            style={{
-              color: "white",
-              fontWeight: 700,
-              textShadow: "0 1px 6px rgba(0,0,0,0.6)",
-            }}
-          >
-            Step 3
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
