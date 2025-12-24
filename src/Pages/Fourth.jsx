@@ -50,14 +50,14 @@ function Fourth() {
   // const todayStr = dayjs().format("DD-MM-YYYY");
   // const [selectedDate, setSelectedDate] = useState(todayStr);
 
-  const authenticateSession = async () => {
-    let payload = {
-      username: "tester",
-      password: "password",
-    };
-    const loginRes = await apiService.login(payload.username, payload.password);
-    console.log(loginRes);
-  };
+  // const authenticateSession = async () => {
+  //   let payload = {
+  //     username: "tester",
+  //     password: "password",
+  //   };
+  //   const loginRes = await apiService.login(payload.username, payload.password);
+  //   console.log(loginRes);
+  // };
 
   const [chartData, setChartData] = useState([]);
 
@@ -110,9 +110,9 @@ function Fourth() {
     // setChartData(Object.values(grouped));
   };
 
-  useEffect(() => {
-    authenticateSession();
-  }, []);
+  // useEffect(() => {
+  //   authenticateSession();
+  // }, []);
 
   useEffect(() => {
     console.log(timeRange?.start);

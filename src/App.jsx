@@ -6,6 +6,7 @@ import Second from "./Pages/Second";
 import Third from "./Pages/Third";
 import Fourth from "./Pages/Fourth";
 import Fifth from "./Pages/Fifth";
+import Login from "./Pages/Login";
 
 
 function App() {
@@ -13,7 +14,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {/* <Route path="/" element={<Login />} /> */}
+          <Route path="/" element={<Login />} />
           <Route path="/*" element={<Main />} />
         </Routes>
       </BrowserRouter>
@@ -51,7 +52,7 @@ const Main = () => {
           <Route path="/1" element={<Home isCollapsed={isCollapsed}/>} />
           <Route path="/2" element={<Second isCollapsed={isCollapsed}/>} />
           <Route path="/3" element={<Third isCollapsed={isCollapsed}/>} />
-          <Route path="/" element={<Fourth isCollapsed={isCollapsed}/>} />
+          <Route path="/home" element={<Fourth isCollapsed={isCollapsed}/>} />
           <Route path="/5" element={<Fifth isCollapsed={isCollapsed}/>} />
         </Routes>
       </div>
